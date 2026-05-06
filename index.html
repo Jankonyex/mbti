@@ -8,106 +8,42 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-body {
-    font-family: 'Inter', sans-serif;
-    background-color: #F8F7F4;
-    color: #2C2A28;
-}
-h1, h2, h3, h4, h5, h6, .serif-text {
-    font-family: 'Playfair Display', serif;
-}
-.chart-container {
-    position: relative;
-    width: 100%;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-    height: 40vh;
-    max-height: 450px;
-}
-.chart-container-large {
-    position: relative;
-    width: 100%;
-    height: 60vh;
-    max-height: 600px;
-}
-@media (min-width: 768px) {
-    .chart-container { height: 45vh; max-height: 500px; }
-}
-.nav-group-title {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #8A8580;
-    margin-top: 1.5rem;
-    margin-bottom: 0.5rem;
-    padding-left: 1.5rem;
-    font-weight: 600;
-}
-.nav-btn {
-    transition: all 0.2s ease-in-out;
-    padding-left: 1.5rem;
-    border-left: 4px solid transparent;
-}
-.nav-btn.active {
-    background-color: #E2DCD0;
-    font-weight: 600;
-    border-left: 4px solid #A68A64;
-    color: #1A1818;
-}
-.nav-btn:hover:not(.active) {
-    background-color: #EBE7DF;
-    border-left: 4px solid #D5CEC4;
-}
-.type-card {
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-.type-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-.type-card.active-type {
-    border: 2px solid #A68A64;
-    background-color: #Fdfcfb;
-    box-shadow: inset 0 0 0 1px rgba(166,138,100,0.2);
-}
-.fade-in {
-    animation: fadeIn 0.4s ease-in-out forwards;
-}
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-.axis-link {
-    background: linear-gradient(90deg, transparent, #D5CEC4, transparent);
-    height: 2px;
-    width: 100%;
-}
-.notation-block {
-    font-family: 'Courier New', Courier, monospace;
-    background-color: #EBE7DF;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
-    color: #1A1818;
-    font-weight: bold;
-}
+body { font-family: 'Inter', sans-serif; background-color: #F8F7F4; color: #2C2A28; }
+h1, h2, h3, h4, h5, h6, .serif-text { font-family: 'Playfair Display', serif; }
+.chart-container { position: relative; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; height: 40vh; max-height: 450px; }
+.chart-container-large { position: relative; width: 100%; height: 60vh; max-height: 600px; }
+@media (min-width: 768px) { .chart-container { height: 45vh; max-height: 500px; } }
+.nav-group-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #8A8580; margin-top: 1.5rem; margin-bottom: 0.5rem; padding-left: 1.5rem; font-weight: 600; }
+.nav-btn { transition: all 0.2s ease-in-out; padding-left: 1.5rem; border-left: 4px solid transparent; }
+.nav-btn.active { background-color: #E2DCD0; font-weight: 600; border-left: 4px solid #A68A64; color: #1A1818; }
+.nav-btn:hover:not(.active) { background-color: #EBE7DF; border-left: 4px solid #D5CEC4; }
+.type-card { transition: transform 0.2s, box-shadow 0.2s; }
+.type-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+.type-card.active-type { border: 2px solid #A68A64; background-color: #Fdfcfb; box-shadow: inset 0 0 0 1px rgba(166,138,100,0.2); }
+.fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.axis-link { background: linear-gradient(90deg, transparent, #D5CEC4, transparent); height: 2px; width: 100%; }
+.notation-block { font-family: 'Courier New', Courier, monospace; background-color: #EBE7DF; padding: 0.25rem 0.5rem; border-radius: 0.25rem; color: #1A1818; font-weight: bold; }
 .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
 .custom-scroll::-webkit-scrollbar-track { background: transparent; }
 .custom-scroll::-webkit-scrollbar-thumb { background-color: #D5CEC4; border-radius: 10px; }
+.dichotomy-card { display: flex; flex-direction: column; md:flex-row; border: 1px solid #E2DCD0; border-radius: 0.5rem; overflow: hidden; }
+.dichotomy-half { padding: 1.5rem; flex: 1; }
+.dichotomy-divider { width: 1px; background-color: #E2DCD0; }
 </style>
 </head>
 <body class="flex flex-col md:flex-row h-screen overflow-hidden">
 
 <!-- Chosen Palette: Warm Neutrals & Alabaster (Bg: #F8F7F4, Text: #2C2A28, Accent: #A68A64, UI Elements: #E2DCD0) -->
-<!-- Application Structure Plan: Nested hierarchical sidebar, now fully responsive to language state. Translations are handled via a robust JS dictionary targeting `data-i18n` attributes, while complex objects (charts, dynamically generated grids) re-render upon toggle. -->
-<!-- Visualization & Content Choices: Maintained styling. Added language toggle in the navigation header. -->
+<!-- Application Structure Plan: Added Section 1.1 "Theoretical Grounding & Dichotomies" as the entry point. Shifts original 1.1 to 1.2, and 1.2 to 1.3. This provides the crucial "Subject vs Object" framework and explains how J/P bridges the 4 letters to the 8 cognitive functions. Architecture remains SVG-free, utilizing CSS layouts for dichotomy comparisons. -->
+<!-- Visualization & Content Choices: For dichotomies, used clean, symmetrical CSS flexbox cards. Left side = primary trait, right side = opposing trait. Center divider. Clean typography establishes academic tone. -->
 <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 
 <nav class="w-full md:w-72 bg-[#EBE7DF] h-auto md:h-full flex-shrink-0 flex flex-col border-r border-[#D5CEC4] overflow-y-auto custom-scroll relative">
     <div class="p-6 pb-2 flex justify-between items-start">
         <div>
             <h1 class="text-2xl font-semibold text-[#1A1818] leading-tight serif-text" data-i18n="nav_title">MBTI Systema</h1>
-            <p class="text-xs mt-2 text-[#5A5550] uppercase tracking-widest font-semibold" data-i18n="nav_subtitle">Clinical Data Core v3.0</p>
+            <p class="text-xs mt-2 text-[#5A5550] uppercase tracking-widest font-semibold" data-i18n="nav_subtitle">Clinical Data Core v3.1</p>
         </div>
         <button id="lang-toggle-btn" onclick="toggleLanguage()" class="text-xs font-bold bg-[#D5CEC4] text-[#1A1818] px-2 py-1 rounded hover:bg-[#A68A64] hover:text-white transition-colors">
             中/EN
@@ -116,12 +52,13 @@ h1, h2, h3, h4, h5, h6, .serif-text {
     
     <div class="flex flex-row md:flex-col overflow-x-auto md:overflow-visible custom-scroll pb-4">
         <div class="nav-group-title hidden md:block" data-i18n="nav_grp_1">I. Theoretical Axioms</div>
-        <button data-target="sec-intro-functions" class="nav-btn active text-left py-2 text-sm text-[#3A3632] whitespace-nowrap md:whitespace-normal" data-i18n="nav_btn_1_1">1.1 Information Metabolism</button>
-        <button data-target="sec-intro-syntax" class="nav-btn text-left py-2 text-sm text-[#3A3632] whitespace-nowrap md:whitespace-normal" data-i18n="nav_btn_1_2">1.2 Dynamic Syntax & Formulas</button>
+        <button data-target="sec-intro-dichotomies" class="nav-btn active text-left py-2 text-sm text-[#3A3632] whitespace-nowrap md:whitespace-normal" data-i18n="nav_btn_1_1">1.1 Jungian Dichotomies</button>
+        <button data-target="sec-intro-functions" class="nav-btn text-left py-2 text-sm text-[#3A3632] whitespace-nowrap md:whitespace-normal" data-i18n="nav_btn_1_2">1.2 The 8 Functions</button>
+        <button data-target="sec-intro-syntax" class="nav-btn text-left py-2 text-sm text-[#3A3632] whitespace-nowrap md:whitespace-normal" data-i18n="nav_btn_1_3">1.3 Dynamic Syntax</button>
         
         <div class="nav-group-title hidden md:block" data-i18n="nav_grp_2">II. Typology Matrices</div>
-        <button data-target="sec-matrix-types" class="nav-btn text-left py-2 text-sm text-[#3A3632] whitespace-nowrap md:whitespace-normal" data-i18n="nav_btn_2_1">2.1 The 16 Attractors (Radar)</button>
-        <button data-target="sec-matrix-quadras" class="nav-btn text-left py-2 text-sm text-[#3A3632] whitespace-nowrap md:whitespace-normal" data-i18n="nav_btn_2_2">2.2 Cognitive Quadras (Polar)</button>
+        <button data-target="sec-matrix-types" class="nav-btn text-left py-2 text-sm text-[#3A3632] whitespace-nowrap md:whitespace-normal" data-i18n="nav_btn_2_1">2.1 The 16 Attractors</button>
+        <button data-target="sec-matrix-quadras" class="nav-btn text-left py-2 text-sm text-[#3A3632] whitespace-nowrap md:whitespace-normal" data-i18n="nav_btn_2_2">2.2 Cognitive Quadras</button>
 
         <div class="nav-group-title hidden md:block" data-i18n="nav_grp_3">III. Dynamic Systems (DAT)</div>
         <button data-target="sec-dat-fluidity" class="nav-btn text-left py-2 text-sm text-[#3A3632] whitespace-nowrap md:whitespace-normal" data-i18n="nav_btn_3_1">3.1 State Variance Index</button>
@@ -137,11 +74,32 @@ h1, h2, h3, h4, h5, h6, .serif-text {
 
 <main class="flex-1 overflow-y-auto custom-scroll bg-[#F8F7F4] p-6 md:p-10 relative" id="main-content">
 
-    <!-- 1.1 INFORMATION METABOLISM -->
-    <section id="sec-intro-functions" class="content-section fade-in max-w-5xl mx-auto">
+    <!-- 1.1 THEORETICAL GROUNDING & DICHOTOMIES -->
+    <section id="sec-intro-dichotomies" class="content-section fade-in max-w-5xl mx-auto">
         <header class="mb-8 border-b border-[#D5CEC4] pb-6">
-            <h2 class="text-4xl font-bold text-[#1A1818] mb-4 serif-text" data-i18n="sec1_title">Information Metabolism & The 8 Functions</h2>
-            <p class="text-lg text-[#4A4642] leading-relaxed" data-i18n="sec1_desc">The foundational elements of the psyche. Rather than behavioral traits, MBTI defines the specific neurological and psychological pathways through which an individual perceives data (Irrational functions) and organizes that data into decisions (Rational functions).</p>
+            <h2 class="text-4xl font-bold text-[#1A1818] mb-4 serif-text" data-i18n="sec1_1_title">Theoretical Grounding & Core Dichotomies</h2>
+            <p class="text-lg text-[#4A4642] leading-relaxed" data-i18n="sec1_1_desc">Before examining the 8 specific cognitive functions, we must define the structural axes of the psyche as derived from Carl Jung's <i>Psychological Types</i> (1921). The four-letter MBTI code is essentially a mathematical shorthand describing the flow of psychic energy (Libido) between the Subject (Self) and the Object (External World).</p>
+        </header>
+
+        <div class="space-y-6" id="dichotomy-container">
+            <!-- Dynamically populated to handle complex layout + bilingual -->
+        </div>
+
+        <div class="mt-8 bg-[#2C2A28] text-white p-6 rounded-lg shadow-md border-l-4 border-[#A68A64]">
+            <h3 class="text-xl font-bold mb-3 serif-text" data-i18n="sec1_1_bridge_title">The Bridge: How J/P Defines the Functions</h3>
+            <p class="text-sm leading-relaxed mb-4" data-i18n="sec1_1_bridge_p1">The J/P dichotomy, introduced by Myers and Briggs, is the master key that translates the 4 letters into the 8 cognitive functions. It answers one vital question: <b>Which cognitive function does the Subject present to the External World (Extravert)?</b></p>
+            <ul class="text-sm space-y-2 list-disc list-inside text-[#EBE7DF]">
+                <li data-i18n="sec1_1_bridge_li1"><b>J (Judging):</b> Extraverts their Judging function (Thinking or Feeling). Therefore, an INT<b>J</b> uses extraverted Thinking (<b>Te</b>). Because their primary interface is Te, their internal dominant function must be a perceiving one (<b>Ni</b>).</li>
+                <li data-i18n="sec1_1_bridge_li2"><b>P (Perceiving):</b> Extraverts their Perceiving function (Sensing or Intuition). Therefore, an INT<b>P</b> uses extraverted Intuition (<b>Ne</b>). Because their primary interface is Ne, their internal dominant function must be a judging one (<b>Ti</b>).</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 1.2 INFORMATION METABOLISM (Formerly 1.1) -->
+    <section id="sec-intro-functions" class="content-section hidden max-w-5xl mx-auto">
+        <header class="mb-8 border-b border-[#D5CEC4] pb-6">
+            <h2 class="text-4xl font-bold text-[#1A1818] mb-4 serif-text" data-i18n="sec1_2_title">Information Metabolism & The 8 Functions</h2>
+            <p class="text-lg text-[#4A4642] leading-relaxed" data-i18n="sec1_2_desc">By combining the dichotomies, we derive the 8 cognitive functions. These represent the specific neurological and psychological pathways through which an individual metabolizes data (Irrational functions: S/N) and organizes that data into decisions (Rational functions: T/F).</p>
         </header>
         
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="functions-grid-container">
@@ -149,37 +107,37 @@ h1, h2, h3, h4, h5, h6, .serif-text {
         </div>
     </section>
 
-    <!-- 1.2 DYNAMIC SYNTAX & FORMULAS -->
+    <!-- 1.3 DYNAMIC SYNTAX & FORMULAS (Formerly 1.2) -->
     <section id="sec-intro-syntax" class="content-section hidden max-w-5xl mx-auto">
+        <!-- Header and Equation -->
         <header class="mb-8 border-b border-[#D5CEC4] pb-6">
-            <h2 class="text-4xl font-bold text-[#1A1818] mb-4 serif-text" data-i18n="sec1_2_title">Dynamic Syntax & Relationship of Symbols</h2>
-            <p class="text-lg text-[#4A4642] leading-relaxed" data-i18n="sec1_2_desc">To move beyond amateur profiling, we mathematically define the cognitive stack. Functions do not operate in isolation; they exist on polarized axes. Pushing one end of the axis inevitably pulls the other.</p>
+            <h2 class="text-4xl font-bold text-[#1A1818] mb-4 serif-text" data-i18n="sec1_3_title">Dynamic Syntax & Relationship of Symbols</h2>
+            <p class="text-lg text-[#4A4642] leading-relaxed" data-i18n="sec1_3_desc">To move beyond amateur profiling, we mathematically define the cognitive stack. Functions do not operate in isolation; they exist on polarized axes. Pushing one end of the axis inevitably pulls the other.</p>
         </header>
 
         <div class="bg-white p-6 rounded-lg border border-[#E2DCD0] mb-8 shadow-sm">
-            <h3 class="text-xl font-semibold mb-4 text-[#A68A64]" data-i18n="sec1_2_eq_title">The Psychic State Equation</h3>
-            <p class="text-sm mb-4" data-i18n="sec1_2_eq_desc">An individual's cognitive orientation (<span class="notation-block">Ψ</span>) is the sum of their functions (<span class="notation-block">F</span>), modified by their attitude (<span class="notation-block">a</span> : e/i) and their hierarchical weight/position (<span class="notation-block">ω</span>).</p>
+            <h3 class="text-xl font-semibold mb-4 text-[#A68A64]" data-i18n="sec1_3_eq_title">The Psychic State Equation</h3>
+            <p class="text-sm mb-4" data-i18n="sec1_3_eq_desc">An individual's cognitive orientation (<span class="notation-block">Ψ</span>) is the sum of their functions (<span class="notation-block">F</span>), modified by their attitude (<span class="notation-block">a</span> : e/i) and their hierarchical weight/position (<span class="notation-block">ω</span>).</p>
             <div class="bg-[#F8F7F4] p-4 rounded text-center text-xl font-mono text-[#1A1818] border border-[#D5CEC4] mb-4">
                 Ψ(Type) = Σ [ ω_n( F_x(a) ) ] + (Environmental Variance)
             </div>
-            <p class="text-xs text-[#5A5550] text-center" data-i18n="sec1_2_eq_note">Where ω_1 (Dominant) = 4, ω_2 (Aux) = 3, ω_3 (Tert) = 2, ω_4 (Inf) = 1. Shadow functions possess negative ω weights (unconscious tension).</p>
+            <p class="text-xs text-[#5A5550] text-center" data-i18n="sec1_3_eq_note">Where ω_1 (Dominant) = 4, ω_2 (Aux) = 3, ω_3 (Tert) = 2, ω_4 (Inf) = 1. Shadow functions possess negative ω weights (unconscious tension).</p>
         </div>
 
-        <h3 class="text-2xl font-semibold mb-6 serif-text" data-i18n="sec1_2_axes_title">The Cognitive Axes (The Law of Polarity)</h3>
-        <p class="text-sm mb-6 text-[#4A4642]" data-i18n="sec1_2_axes_desc">Every perceiving function is permanently tethered to its opposite orientation and counterpart. Every judging function is similarly tethered. These are the gears of the mind.</p>
+        <h3 class="text-2xl font-semibold mb-6 serif-text" data-i18n="sec1_3_axes_title">The Cognitive Axes (The Law of Polarity)</h3>
+        <p class="text-sm mb-6 text-[#4A4642]" data-i18n="sec1_3_axes_desc">Every perceiving function is permanently tethered to its opposite orientation and counterpart. Every judging function is similarly tethered. These are the gears of the mind.</p>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="axes-container">
-            <!-- Dynamically Populated to support bilingual axes titles -->
+            <!-- Dynamically Populated -->
         </div>
     </section>
 
-    <!-- 2.1 THE 16 ATTRACTORS (RADAR) -->
+    <!-- Sections 2.1 through 5.1 remain identical in structure to previous, their IDs intact -->
     <section id="sec-matrix-types" class="content-section hidden max-w-6xl mx-auto">
         <header class="mb-8 border-b border-[#D5CEC4] pb-6">
             <h2 class="text-4xl font-bold text-[#1A1818] mb-4 serif-text" data-i18n="sec2_1_title">Interactive Typology Matrix (16 Attractors)</h2>
-            <p class="text-lg text-[#4A4642] leading-relaxed" data-i18n="sec2_1_desc">Select an attractor to generate its multi-axial cognitive profile. The radar chart illustrates activation potential across the 8-function (Beebe) model, mapping the Ego stack against the Shadow stack.</p>
+            <p class="text-lg text-[#4A4642] leading-relaxed" data-i18n="sec2_1_desc">Select an attractor to generate its multi-axial cognitive profile. The radar chart illustrates activation potential across the 8-function (Beebe) model.</p>
         </header>
-
         <div class="flex flex-col lg:flex-row gap-8">
             <div class="w-full lg:w-1/3 flex flex-col h-full">
                 <div class="grid grid-cols-4 gap-2 mb-4" id="type-grid"></div>
@@ -192,9 +150,7 @@ h1, h2, h3, h4, h5, h6, .serif-text {
             </div>
             <div class="w-full lg:w-2/3 bg-white p-6 rounded-lg border border-[#E2DCD0] flex flex-col justify-center shadow-sm">
                 <h3 class="text-center text-lg font-semibold mb-2 text-[#1A1818] uppercase tracking-wide" data-i18n="sec2_1_chart_title">Cognitive Resonance Map</h3>
-                <div class="chart-container w-full">
-                    <canvas id="radarChart"></canvas>
-                </div>
+                <div class="chart-container w-full"><canvas id="radarChart"></canvas></div>
                 <div class="flex justify-center gap-4 mt-4 text-xs font-semibold">
                     <div class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-[rgba(166,138,100,0.8)]"></span> <span data-i18n="ego_label">Conscious Ego</span></div>
                     <div class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-[rgba(44,42,40,0.2)] border border-[#2C2A28]"></span> <span data-i18n="shadow_label">Unconscious Shadow</span></div>
@@ -203,102 +159,75 @@ h1, h2, h3, h4, h5, h6, .serif-text {
         </div>
     </section>
 
-    <!-- 2.2 COGNITIVE QUADRAS (POLAR) -->
     <section id="sec-matrix-quadras" class="content-section hidden max-w-5xl mx-auto">
         <header class="mb-8 border-b border-[#D5CEC4] pb-6">
             <h2 class="text-4xl font-bold text-[#1A1818] mb-4 serif-text" data-i18n="sec2_2_title">Cognitive Quadras & Synchronicity</h2>
-            <p class="text-lg text-[#4A4642] leading-relaxed" data-i18n="sec2_2_desc">Types that share the exact same four cognitive functions (regardless of order) belong to a "Quadra". These groups share fundamental philosophical baselines and communicate with zero cognitive translation required, leading to high synergy.</p>
+            <p class="text-lg text-[#4A4642] leading-relaxed" data-i18n="sec2_2_desc">Types that share the exact same four cognitive functions belong to a "Quadra". These groups share fundamental philosophical baselines.</p>
         </header>
-
         <div class="flex flex-col md:flex-row gap-8 items-center">
             <div class="w-full md:w-1/2">
-                <div class="chart-container w-full">
-                    <canvas id="polarChart"></canvas>
-                </div>
-                <p class="text-center text-xs text-[#7A7570] mt-4" data-i18n="sec2_2_chart_note">Volume represents shared functional valuation within the Quadra.</p>
+                <div class="chart-container w-full"><canvas id="polarChart"></canvas></div>
+                <p class="text-center text-xs text-[#7A7570] mt-4" data-i18n="sec2_2_chart_note">Volume represents shared functional valuation.</p>
             </div>
-            <div class="w-full md:w-1/2 space-y-4" id="quadra-container">
-                <!-- Dynamically Populated -->
-            </div>
+            <div class="w-full md:w-1/2 space-y-4" id="quadra-container"></div>
         </div>
     </section>
 
-    <!-- 3.1 STATE VARIANCE INDEX -->
     <section id="sec-dat-fluidity" class="content-section hidden max-w-5xl mx-auto">
         <header class="mb-8 border-b border-[#D5CEC4] pb-6">
             <h2 class="text-4xl font-bold text-[#1A1818] mb-4 serif-text" data-i18n="sec3_1_title">DAT: State Variance & Fluidity Index</h2>
-            <p class="text-lg text-[#4A4642] leading-relaxed" data-i18n="sec3_1_desc">Traditional models fail because they assume static cognition. The Dynamic Attractor Theory (DAT) models personality as a probabilistic center. Under stress or growth, individuals exhibit "fluidity," migrating their cognitive usage toward Shadow or Inferior basins.</p>
+            <p class="text-lg text-[#4A4642] leading-relaxed" data-i18n="sec3_1_desc">Traditional models assume static cognition. DAT models personality as a probabilistic center. Under stress, individuals exhibit "fluidity".</p>
         </header>
-
         <div class="bg-white p-6 rounded-lg border border-[#E2DCD0] shadow-sm mb-6">
-            <h3 class="text-center text-lg font-semibold mb-4 text-[#1A1818] uppercase tracking-wide" data-i18n="sec3_1_chart_title">Cognitive Variance Under Allostatic Load (INTJ Model)</h3>
-            <div class="chart-container w-full">
-                <canvas id="lineChart"></canvas>
-            </div>
-            <p class="text-center text-xs text-[#7A7570] mt-4" data-i18n="sec3_1_chart_note">At "Severe Load", primary systems collapse, triggering the Inferior Grip to take emergency psychic control.</p>
+            <h3 class="text-center text-lg font-semibold mb-4 text-[#1A1818] uppercase tracking-wide" data-i18n="sec3_1_chart_title">Cognitive Variance (INTJ Model)</h3>
+            <div class="chart-container w-full"><canvas id="lineChart"></canvas></div>
+            <p class="text-center text-xs text-[#7A7570] mt-4" data-i18n="sec3_1_chart_note">At Severe Load, primary systems collapse.</p>
         </div>
     </section>
 
-    <!-- 3.2 PHASE SPACE MAPPING -->
     <section id="sec-dat-phase" class="content-section hidden max-w-5xl mx-auto">
         <header class="mb-8 border-b border-[#D5CEC4] pb-6">
             <h2 class="text-4xl font-bold text-[#1A1818] mb-4 serif-text" data-i18n="sec3_2_title">DAT: Neuro-Psychic Phase Space</h2>
-            <p class="text-lg text-[#4A4642] leading-relaxed" data-i18n="sec3_2_desc">Visualizing the 16 types not as separate boxes, but as coordinates within a 2D psychic continuum. Proximity indicates ease of cognitive transition and similarity in information processing.</p>
+            <p class="text-lg text-[#4A4642] leading-relaxed" data-i18n="sec3_2_desc">Visualizing the 16 types as coordinates within a 2D psychic continuum.</p>
         </header>
-
         <div class="flex flex-col lg:flex-row gap-6 items-start">
             <div class="w-full lg:w-3/4 bg-white p-6 rounded-lg border border-[#E2DCD0] shadow-sm">
-                 <div class="chart-container-large w-full">
-                    <canvas id="scatterChart"></canvas>
-                </div>
+                 <div class="chart-container-large w-full"><canvas id="scatterChart"></canvas></div>
             </div>
             <div class="w-full lg:w-1/4 space-y-4">
                 <div class="bg-[#2C2A28] text-white p-4 rounded shadow-md">
                     <h4 class="font-bold text-sm mb-2 border-b border-[#5A5550] pb-1" data-i18n="sec3_2_axes_title">Axes Explanation</h4>
-                    <p class="text-xs mb-2"><span class="text-[#A68A64] font-bold" data-i18n="sec3_2_x_title">X-Axis (Perception):</span> <span data-i18n="sec3_2_x_desc">Ranges from absolute physical specificity (Se/Si) to absolute abstract conceptualization (Ne/Ni).</span></p>
-                    <p class="text-xs"><span class="text-[#A68A64] font-bold" data-i18n="sec3_2_y_title">Y-Axis (Judgment):</span> <span data-i18n="sec3_2_y_desc">Ranges from depersonalized objective systems (Te/Ti) to highly personalized subjective ethics (Fe/Fi).</span></p>
-                </div>
-                <div class="bg-white p-4 rounded border border-[#E2DCD0] text-xs text-[#4A4642]">
-                    <p class="font-bold text-[#1A1818] mb-1" data-i18n="sec3_2_orbit_title">Orbital Mechanics:</p>
-                    <p data-i18n="sec3_2_orbit_desc">An individual's state point can fluctuate. A depressed ENFP might physically map closer to an ISTJ coordinate as they rely heavily on their Te/Si inferior functions to survive.</p>
+                    <p class="text-xs mb-2"><span class="text-[#A68A64] font-bold" data-i18n="sec3_2_x_title">X-Axis (Perception):</span> <span data-i18n="sec3_2_x_desc">Physical to Abstract.</span></p>
+                    <p class="text-xs"><span class="text-[#A68A64] font-bold" data-i18n="sec3_2_y_title">Y-Axis (Judgment):</span> <span data-i18n="sec3_2_y_desc">Objective to Subjective.</span></p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 4.1 INTER-TYPE DYNAMICS -->
     <section id="sec-rel-dynamics" class="content-section hidden max-w-6xl mx-auto">
         <header class="mb-8 border-b border-[#D5CEC4] pb-6">
             <h2 class="text-4xl font-bold text-[#1A1818] mb-4 serif-text" data-i18n="sec4_1_title">Inter-Type Mechanics: Synergy vs Friction</h2>
-            <p class="text-lg text-[#4A4642] leading-relaxed" data-i18n="sec4_1_desc">Mapping the theoretical compatibility between typologies. High synergy reduces communication cost, while high friction increases it. However, high friction often correlates with maximum mutual growth potential if integrated successfully.</p>
+            <p class="text-lg text-[#4A4642] leading-relaxed" data-i18n="sec4_1_desc">Mapping the theoretical compatibility between typologies.</p>
         </header>
-
         <div class="bg-white p-6 rounded-lg border border-[#E2DCD0] shadow-sm mb-6">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-semibold text-[#1A1818]" data-i18n="sec4_1_chart_title">Relationship Topology (Base: INTJ)</h3>
+                <h3 class="text-lg font-semibold text-[#1A1818]" data-i18n="sec4_1_chart_title">Relationship Topology</h3>
                 <span class="text-xs bg-[#EBE7DF] px-3 py-1 rounded text-[#5A5550] font-bold" data-i18n="sec4_1_hover">Hover for metrics</span>
             </div>
-            <div class="chart-container-large w-full">
-                <canvas id="bubbleChart"></canvas>
-            </div>
+            <div class="chart-container-large w-full"><canvas id="bubbleChart"></canvas></div>
             <div class="flex flex-wrap justify-center gap-6 mt-4 text-xs font-semibold text-[#5A5550]">
-                <div><span class="inline-block w-3 h-3 rounded-full bg-[#A68A64] opacity-70 mr-1"></span> <span data-i18n="sec4_1_leg_1">Low Friction (Synergy)</span></div>
-                <div><span class="inline-block w-3 h-3 rounded-full bg-[#C65A49] opacity-70 mr-1"></span> <span data-i18n="sec4_1_leg_2">High Friction (Conflict/Growth)</span></div>
-                <div><span class="inline-block w-3 h-3 rounded-full border border-gray-400 mr-1"></span> <span data-i18n="sec4_1_leg_3">Bubble Size = Growth/Transformation Potential</span></div>
+                <div><span class="inline-block w-3 h-3 rounded-full bg-[#A68A64] opacity-70 mr-1"></span> <span data-i18n="sec4_1_leg_1">Low Friction</span></div>
+                <div><span class="inline-block w-3 h-3 rounded-full bg-[#C65A49] opacity-70 mr-1"></span> <span data-i18n="sec4_1_leg_2">High Friction</span></div>
             </div>
         </div>
     </section>
 
-    <!-- 5.1 PATHOLOGIES -->
     <section id="sec-app-pathology" class="content-section hidden max-w-5xl mx-auto">
         <header class="mb-8 border-b border-[#D5CEC4] pb-6">
             <h2 class="text-4xl font-bold text-[#1A1818] mb-4 serif-text" data-i18n="sec5_1_title">Clinical Pathologies: Loops & Grips</h2>
-            <p class="text-lg text-[#4A4642] leading-relaxed" data-i18n="sec5_1_desc">Typology provides a framework for diagnosing specific cognitive distress states. These are not permanent disorders, but mechanical breakdowns in information metabolism.</p>
+            <p class="text-lg text-[#4A4642] leading-relaxed" data-i18n="sec5_1_desc">Diagnostic frameworks for specific cognitive distress states.</p>
         </header>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8" id="pathology-container">
-            <!-- Dynamically populated for language -->
-        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8" id="pathology-container"></div>
     </section>
 
 </main>
@@ -307,165 +236,162 @@ h1, h2, h3, h4, h5, h6, .serif-text {
 // --- I18N DICTIONARY & LOGIC ---
 const i18n = {
     en: {
-        nav_title: "MBTI Systema", nav_subtitle: "Clinical Data Core v3.0",
-        nav_grp_1: "I. Theoretical Axioms", nav_btn_1_1: "1.1 Information Metabolism", nav_btn_1_2: "1.2 Dynamic Syntax & Formulas",
-        nav_grp_2: "II. Typology Matrices", nav_btn_2_1: "2.1 The 16 Attractors (Radar)", nav_btn_2_2: "2.2 Cognitive Quadras (Polar)",
+        nav_title: "MBTI Systema", nav_subtitle: "Clinical Data Core v3.1",
+        nav_grp_1: "I. Theoretical Axioms", nav_btn_1_1: "1.1 Jungian Dichotomies", nav_btn_1_2: "1.2 The 8 Functions", nav_btn_1_3: "1.3 Dynamic Syntax",
+        nav_grp_2: "II. Typology Matrices", nav_btn_2_1: "2.1 The 16 Attractors", nav_btn_2_2: "2.2 Cognitive Quadras",
         nav_grp_3: "III. Dynamic Systems (DAT)", nav_btn_3_1: "3.1 State Variance Index", nav_btn_3_2: "3.2 Phase Space Mapping",
         nav_grp_4: "IV. Relational Mechanics", nav_btn_4_1: "4.1 Inter-Type Synergy",
         nav_grp_5: "V. Clinical Practice", nav_btn_5_1: "5.1 Pathologies & Loops",
         
-        sec1_title: "Information Metabolism & The 8 Functions",
-        sec1_desc: "The foundational elements of the psyche. Rather than behavioral traits, MBTI defines the specific neurological and psychological pathways through which an individual perceives data (Irrational functions) and organizes that data into decisions (Rational functions).",
+        // Section 1.1 Core Dichotomies
+        sec1_1_title: "Theoretical Grounding & Core Dichotomies",
+        sec1_1_desc: "Before examining the 8 specific cognitive functions, we must define the structural axes of the psyche as derived from Carl Jung's <i>Psychological Types</i> (1921). The four-letter MBTI code is essentially a mathematical shorthand describing the flow of psychic energy (Libido) between the Subject (Self) and the Object (External World).",
+        sec1_1_bridge_title: "The Bridge: How J/P Defines the Functions",
+        sec1_1_bridge_p1: "The J/P dichotomy, introduced by Myers and Briggs, is the master key that translates the 4 letters into the 8 cognitive functions. It answers one vital question: <b>Which cognitive function does the Subject present to the External World (Extravert)?</b>",
+        sec1_1_bridge_li1: "<b>J (Judging):</b> Extraverts their Judging function (Thinking or Feeling). Therefore, an INT<b>J</b> uses extraverted Thinking (<b>Te</b>). Because their primary interface is Te, their internal dominant function must be a perceiving one (<b>Ni</b>).",
+        sec1_1_bridge_li2: "<b>P (Perceiving):</b> Extraverts their Perceiving function (Sensing or Intuition). Therefore, an INT<b>P</b> uses extraverted Intuition (<b>Ne</b>). Because their primary interface is Ne, their internal dominant function must be a judging one (<b>Ti</b>).",
+
+        // Section 1.2
+        sec1_2_title: "Information Metabolism & The 8 Functions",
+        sec1_2_desc: "By combining the dichotomies, we derive the 8 cognitive functions. These represent the specific neurological and psychological pathways through which an individual metabolizes data (Irrational functions: S/N) and organizes that data into decisions (Rational functions: T/F).",
         
-        sec1_2_title: "Dynamic Syntax & Relationship of Symbols",
-        sec1_2_desc: "To move beyond amateur profiling, we mathematically define the cognitive stack. Functions do not operate in isolation; they exist on polarized axes. Pushing one end of the axis inevitably pulls the other.",
-        sec1_2_eq_title: "The Psychic State Equation",
-        sec1_2_eq_desc: "An individual's cognitive orientation (<span class=\"notation-block\">Ψ</span>) is the sum of their functions (<span class=\"notation-block\">F</span>), modified by their attitude (<span class=\"notation-block\">a</span> : e/i) and their hierarchical weight/position (<span class=\"notation-block\">ω</span>).",
-        sec1_2_eq_note: "Where ω_1 (Dominant) = 4, ω_2 (Aux) = 3, ω_3 (Tert) = 2, ω_4 (Inf) = 1. Shadow functions possess negative ω weights (unconscious tension).",
-        sec1_2_axes_title: "The Cognitive Axes (The Law of Polarity)",
-        sec1_2_axes_desc: "Every perceiving function is permanently tethered to its opposite orientation and counterpart. Every judging function is similarly tethered. These are the gears of the mind.",
+        // Section 1.3
+        sec1_3_title: "Dynamic Syntax & Relationship of Symbols",
+        sec1_3_desc: "To move beyond amateur profiling, we mathematically define the cognitive stack. Functions do not operate in isolation; they exist on polarized axes. Pushing one end of the axis inevitably pulls the other.",
+        sec1_3_eq_title: "The Psychic State Equation",
+        sec1_3_eq_desc: "An individual's cognitive orientation (<span class=\"notation-block\">Ψ</span>) is the sum of their functions (<span class=\"notation-block\">F</span>), modified by their attitude (<span class=\"notation-block\">a</span> : e/i) and their hierarchical weight/position (<span class=\"notation-block\">ω</span>).",
+        sec1_3_eq_note: "Where ω_1 (Dominant) = 4, ω_2 (Aux) = 3, ω_3 (Tert) = 2, ω_4 (Inf) = 1. Shadow functions possess negative ω weights.",
+        sec1_3_axes_title: "The Cognitive Axes (The Law of Polarity)",
+        sec1_3_axes_desc: "Every perceiving function is permanently tethered to its opposite orientation and counterpart.",
 
-        sec2_1_title: "Interactive Typology Matrix (16 Attractors)",
-        sec2_1_desc: "Select an attractor to generate its multi-axial cognitive profile. The radar chart illustrates activation potential across the 8-function (Beebe) model, mapping the Ego stack against the Shadow stack.",
-        sec2_1_chart_title: "Cognitive Resonance Map",
-        ego_label: "Conscious Ego", shadow_label: "Unconscious Shadow",
-
-        sec2_2_title: "Cognitive Quadras & Synchronicity",
-        sec2_2_desc: "Types that share the exact same four cognitive functions (regardless of order) belong to a \"Quadra\". These groups share fundamental philosophical baselines and communicate with zero cognitive translation required, leading to high synergy.",
-        sec2_2_chart_note: "Volume represents shared functional valuation within the Quadra.",
-
-        sec3_1_title: "DAT: State Variance & Fluidity Index",
-        sec3_1_desc: "Traditional models fail because they assume static cognition. The Dynamic Attractor Theory (DAT) models personality as a probabilistic center. Under stress or growth, individuals exhibit \"fluidity,\" migrating their cognitive usage toward Shadow or Inferior basins.",
-        sec3_1_chart_title: "Cognitive Variance Under Allostatic Load (INTJ Model)",
-        sec3_1_chart_note: "At \"Severe Load\", primary systems collapse, triggering the Inferior Grip to take emergency psychic control.",
-
-        sec3_2_title: "DAT: Neuro-Psychic Phase Space",
-        sec3_2_desc: "Visualizing the 16 types not as separate boxes, but as coordinates within a 2D psychic continuum. Proximity indicates ease of cognitive transition and similarity in information processing.",
-        sec3_2_axes_title: "Axes Explanation", sec3_2_x_title: "X-Axis (Perception):", sec3_2_x_desc: "Ranges from absolute physical specificity (Se/Si) to absolute abstract conceptualization (Ne/Ni).",
-        sec3_2_y_title: "Y-Axis (Judgment):", sec3_2_y_desc: "Ranges from depersonalized objective systems (Te/Ti) to highly personalized subjective ethics (Fe/Fi).",
-        sec3_2_orbit_title: "Orbital Mechanics:", sec3_2_orbit_desc: "An individual's state point can fluctuate. A depressed ENFP might physically map closer to an ISTJ coordinate as they rely heavily on their Te/Si inferior functions to survive.",
-
-        sec4_1_title: "Inter-Type Mechanics: Synergy vs Friction",
-        sec4_1_desc: "Mapping the theoretical compatibility between typologies. High synergy reduces communication cost, while high friction increases it. However, high friction often correlates with maximum mutual growth potential if integrated successfully.",
-        sec4_1_chart_title: "Relationship Topology (Base: INTJ)", sec4_1_hover: "Hover for metrics",
-        sec4_1_leg_1: "Low Friction (Synergy)", sec4_1_leg_2: "High Friction (Conflict/Growth)", sec4_1_leg_3: "Bubble Size = Growth/Transformation Potential",
-
-        sec5_1_title: "Clinical Pathologies: Loops & Grips",
-        sec5_1_desc: "Typology provides a framework for diagnosing specific cognitive distress states. These are not permanent disorders, but mechanical breakdowns in information metabolism."
+        // Section 2+
+        sec2_1_title: "Interactive Typology Matrix (16 Attractors)", sec2_1_desc: "Select an attractor to generate its multi-axial cognitive profile.", sec2_1_chart_title: "Cognitive Resonance Map", ego_label: "Conscious Ego", shadow_label: "Unconscious Shadow",
+        sec2_2_title: "Cognitive Quadras & Synchronicity", sec2_2_desc: "Types sharing the exact same four functions belong to a Quadra.", sec2_2_chart_note: "Volume represents shared functional valuation.",
+        sec3_1_title: "DAT: State Variance & Fluidity Index", sec3_1_desc: "Under stress, individuals exhibit fluidity toward inferior basins.", sec3_1_chart_title: "Cognitive Variance", sec3_1_chart_note: "Primary systems collapse under severe load.",
+        sec3_2_title: "DAT: Neuro-Psychic Phase Space", sec3_2_desc: "Visualizing types as coordinates within a 2D psychic continuum.", sec3_2_axes_title: "Axes Explanation", sec3_2_x_title: "X-Axis (Perception):", sec3_2_x_desc: "Physical to Abstract.", sec3_2_y_title: "Y-Axis (Judgment):", sec3_2_y_desc: "Objective to Subjective.",
+        sec4_1_title: "Inter-Type Synergy vs Friction", sec4_1_desc: "Mapping theoretical compatibility.", sec4_1_chart_title: "Relationship Topology", sec4_1_hover: "Hover for metrics", sec4_1_leg_1: "Low Friction", sec4_1_leg_2: "High Friction",
+        sec5_1_title: "Clinical Pathologies: Loops & Grips", sec5_1_desc: "Diagnostic frameworks for cognitive distress states."
     },
     zh: {
-        nav_title: "MBTI 系統矩陣", nav_subtitle: "臨床數據核心 v3.0",
-        nav_grp_1: "I. 理論公理", nav_btn_1_1: "1.1 資訊代謝", nav_btn_1_2: "1.2 動態語法與公式",
-        nav_grp_2: "II. 類型矩陣", nav_btn_2_1: "2.1 16 型吸引子 (雷達圖)", nav_btn_2_2: "2.2 認知 Quadras (極坐標)",
+        nav_title: "MBTI 系統矩陣", nav_subtitle: "臨床數據核心 v3.1",
+        nav_grp_1: "I. 理論公理", nav_btn_1_1: "1.1 榮格二分法", nav_btn_1_2: "1.2 八大認知功能", nav_btn_1_3: "1.3 動態語法",
+        nav_grp_2: "II. 類型矩陣", nav_btn_2_1: "2.1 16 型吸引子", nav_btn_2_2: "2.2 認知 Quadras",
         nav_grp_3: "III. 動態系統 (DAT)", nav_btn_3_1: "3.1 狀態變異指數", nav_btn_3_2: "3.2 相空間映射",
         nav_grp_4: "IV. 關係力學", nav_btn_4_1: "4.1 類型間協同作用",
         nav_grp_5: "V. 臨床實踐", nav_btn_5_1: "5.1 心理病理與 Loops",
         
-        sec1_title: "資訊代謝與 8 大認知功能",
-        sec1_desc: "這是心靈的基礎元素。MBTI 定義的並非行為特徵，而是個體感知數據 (非理性功能) 與組織數據以進行決策 (理性功能) 的特定神經與心理路徑。",
+        // Section 1.1 Core Dichotomies
+        sec1_1_title: "理論基礎與核心二分法",
+        sec1_1_desc: "在探討 8 個具體的認知功能之前，我們必須定義源自卡爾·榮格《心理類型》(1921) 的心靈結構軸。四個字母的 MBTI 代碼本質上是一種數學速記，描述了心理能量 (Libido) 在主體 (自我) 與客體 (外部世界) 之間的流動。",
+        sec1_1_bridge_title: "橋樑：J/P 如何定義功能",
+        sec1_1_bridge_p1: "Myers 和 Briggs 引入的 J/P 二分法是將 4 個字母轉化為 8 個認知功能的萬能鑰匙。它回答了一個至關重要的問題：<b>主體向外部世界展示 (外傾) 哪一種認知功能？</b>",
+        sec1_1_bridge_li1: "<b>J (判斷 - Judging):</b> 外傾其判斷功能 (T 或 F)。因此，INT<b>J</b> 使用外傾思考 (<b>Te</b>)。由於他們的主要外部接口是 Te，其內部的核心主導功能必然是感知功能 (<b>Ni</b>)。",
+        sec1_1_bridge_li2: "<b>P (感知 - Perceiving):</b> 外傾其感知功能 (S 或 N)。因此，INT<b>P</b> 使用外傾直覺 (<b>Ne</b>)。由於他們的主要外部接口是 Ne，其內部的核心主導功能必然是判斷功能 (<b>Ti</b>)。",
+
+        // Section 1.2
+        sec1_2_title: "資訊代謝與 8 大認知功能",
+        sec1_2_desc: "通過結合二分法，我們推導出 8 個認知功能。這些代表了個體代謝數據 (非理性功能：S/N) 並將該數據組織成決策 (理性功能：T/F) 的特定神經與心理路徑。",
         
-        sec1_2_title: "動態語法與符號關係",
-        sec1_2_desc: "為了超越業餘的性格分析，我們以數學方式定義認知堆疊。功能不會孤立運作；它們存在於兩極化的軸線上。推動軸的一端必然會拉動另一端。",
-        sec1_2_eq_title: "心理狀態方程式",
-        sec1_2_eq_desc: "個體的認知導向 (<span class=\"notation-block\">Ψ</span>) 是其功能 (<span class=\"notation-block\">F</span>) 的總和，並受其態度 (<span class=\"notation-block\">a</span> : e/i) 與層級權重/位置 (<span class=\"notation-block\">ω</span>) 所修飾。",
-        sec1_2_eq_note: "其中 ω_1 (Dominant) = 4, ω_2 (Aux) = 3, ω_3 (Tert) = 2, ω_4 (Inf) = 1。Shadow 功能具有負 ω 權重 (無意識張力)。",
-        sec1_2_axes_title: "認知軸 (兩極法則)",
-        sec1_2_axes_desc: "每個感知功能都永久與其相反的態度及對應功能相連。每個判斷功能也是如此。這些是心智的齒輪。",
+        // Section 1.3
+        sec1_3_title: "動態語法與符號關係",
+        sec1_3_desc: "為了超越業餘的性格分析，我們以數學方式定義認知堆疊。功能不會孤立運作；它們存在於兩極化的軸線上。",
+        sec1_3_eq_title: "心理狀態方程式",
+        sec1_3_eq_desc: "個體的認知導向 (<span class=\"notation-block\">Ψ</span>) 是其功能 (<span class=\"notation-block\">F</span>) 的總和，並受其態度 (<span class=\"notation-block\">a</span> : e/i) 與層級權重/位置 (<span class=\"notation-block\">ω</span>) 所修飾。",
+        sec1_3_eq_note: "其中 ω_1 = 4, ω_2 = 3... 陰影功能具有負 ω 權重 (無意識張力)。",
+        sec1_3_axes_title: "認知軸 (兩極法則)",
+        sec1_3_axes_desc: "每個感知功能都永久與其相反的態度及對應功能相連。每個判斷功能也是如此。",
 
-        sec2_1_title: "互動式類型矩陣 (16 型吸引子)",
-        sec2_1_desc: "選擇一個吸引子以生成其多軸認知輪廓。雷達圖展示了 8 功能 (Beebe) 模型中的激活潛力，映射了 Ego (自我) 堆疊與 Shadow (陰影) 堆疊的對比。",
-        sec2_1_chart_title: "認知共振圖",
-        ego_label: "意識自我 (Conscious Ego)", shadow_label: "無意識陰影 (Unconscious Shadow)",
-
-        sec2_2_title: "認知 Quadras 與共時性",
-        sec2_2_desc: "共享完全相同四個認知功能 (不論順序) 的類型屬於同一個 \"Quadra\"。這些群體共享基本的哲學基準，且交流時不需要認知翻譯，因此能產生高度的協同作用。",
-        sec2_2_chart_note: "體積代表 Quadra 內共享的功能價值。",
-
-        sec3_1_title: "DAT: 狀態變異與流動指數",
-        sec3_1_desc: "傳統模型之所以失敗，是因為它們假設認知是靜態的。動態吸引子理論 (DAT) 將人格建模為一個概率中心。在壓力或成長下，個體會表現出「流動性」，將其認知使用遷移至 Shadow 或 Inferior 盆地。",
-        sec3_1_chart_title: "異位負荷下的認知變異 (INTJ 模型)",
-        sec3_1_chart_note: "在「重度負荷」下，主要系統崩潰，觸發 Inferior Grip 進行緊急心理控制。",
-
-        sec3_2_title: "DAT: 神經心理相空間",
-        sec3_2_desc: "將 16 種類型可視化為 2D 心理連續體中的座標，而非獨立的盒子。距離的遠近表示認知轉換的難易程度及資訊處理的相似性。",
-        sec3_2_axes_title: "軸線說明", sec3_2_x_title: "X 軸 (感知):", sec3_2_x_desc: "從絕對的物理具體性 (Se/Si) 到絕對的抽象概念化 (Ne/Ni)。",
-        sec3_2_y_title: "Y 軸 (判斷):", sec3_2_y_desc: "從去人格化的客觀系統 (Te/Ti) 到高度個人化的主觀道德 (Fe/Fi)。",
-        sec3_2_orbit_title: "軌道力學:", sec3_2_orbit_desc: "個體的狀態點是會波動的。一個抑鬱的 ENFP 可能在物理映射上更接近 ISTJ 座標，因為他們為了生存而嚴重依賴其 Te/Si劣勢功能。",
-
-        sec4_1_title: "類型間力學：協同 vs 摩擦",
-        sec4_1_desc: "映射類型學之間的理論相容性。高協同作用降低了溝通成本，而高摩擦則增加了成本。然而，如果能成功整合，高摩擦通常與最大的共同成長潛力相關。",
-        sec4_1_chart_title: "關係拓撲學 (基準: INTJ)", sec4_1_hover: "懸停查看指標",
-        sec4_1_leg_1: "低摩擦 (協同)", sec4_1_leg_2: "高摩擦 (衝突/成長)", sec4_1_leg_3: "氣泡大小 = 成長/轉化潛力",
-
-        sec5_1_title: "臨床心理病理：Loops 與 Grips",
-        sec5_1_desc: "類型學為診斷特定的認知困擾狀態提供了一個框架。這些不是永久性的障礙，而是資訊代謝的機械性故障。"
+        // Section 2+
+        sec2_1_title: "互動式類型矩陣 (16 型吸引子)", sec2_1_desc: "選擇一個吸引子以生成其多軸認知輪廓。", sec2_1_chart_title: "認知共振圖", ego_label: "意識自我 (Ego)", shadow_label: "無意識陰影 (Shadow)",
+        sec2_2_title: "認知 Quadras 與共時性", sec2_2_desc: "共享完全相同四個認知功能的類型屬於同一個 Quadra。", sec2_2_chart_note: "體積代表 Quadra 內共享的功能價值。",
+        sec3_1_title: "DAT: 狀態變異與流動指數", sec3_1_desc: "在壓力下，個體會表現出流動性，認知使用向劣勢轉移。", sec3_1_chart_title: "認知變異", sec3_1_chart_note: "在重度負荷下，主要系統崩潰。",
+        sec3_2_title: "DAT: 神經心理相空間", sec3_2_desc: "將 16 種類型可視化為 2D 心理連續體中的座標。", sec3_2_axes_title: "軸線說明", sec3_2_x_title: "X 軸 (感知):", sec3_2_x_desc: "物理具體性至抽象概念化。", sec3_2_y_title: "Y 軸 (判斷):", sec3_2_y_desc: "客觀系統至主觀倫理。",
+        sec4_1_title: "類型間協同 vs 摩擦", sec4_1_desc: "映射理論相容性。", sec4_1_chart_title: "關係拓撲學", sec4_1_hover: "懸停查看指標", sec4_1_leg_1: "低摩擦 (協同)", sec4_1_leg_2: "高摩擦 (衝突)",
+        sec5_1_title: "臨床心理病理：Loops 與 Grips", sec5_1_desc: "為診斷特定認知困擾狀態提供框架。"
     }
 };
 
 let currentLang = 'en';
 
 // --- DATA STORE (Bilingual) ---
+const dichotomyData = [
+    {
+        title: {en: "Direction of Psychic Energy (Attitude)", zh: "心理能量的流向 (態度)"},
+        left: { let: "I", name: {en:"Introversion", zh:"內傾 (Introversion)"}, desc: {en:"Energy flows inward. The Subject is primary. Information is validated internally against subjective impressions.", zh:"能量向內流動。主體 (Subject) 為主。資訊通過主觀印像在內部進行驗證。"}, col: "#7A9E9F" },
+        right: { let: "E", name: {en:"Extraversion", zh:"外傾 (Extraversion)"}, desc: {en:"Energy flows outward. The Object is primary. Information is validated externally against the environment.", zh:"能量向外流動。客體 (Object) 為主。資訊透過環境在外部進行驗證。"}, col: "#C65A49" }
+    },
+    {
+        title: {en: "Information Gathering (Perception)", zh: "資訊的收集 (感知)"},
+        left: { let: "S", name: {en:"Sensing", zh:"感覺 (Sensing)"}, desc: {en:"Focuses on empirical data, tangibility, and high-fidelity concrete realities. \"What is.\"", zh:"專注於經驗數據、有形性和高保真度的具體現實。「是什麼」。"}, col: "#A68A64" },
+        right: { let: "N", name: {en:"Intuition", zh:"直覺 (Intuition)"}, desc: {en:"Focuses on archetypal patterns, abstract connections, and hidden potentials. \"What could be.\"", zh:"專注於原型模式、抽象連結和隱藏的潛力。「可能是什麼」。"}, col: "#2C2A28" }
+    },
+    {
+        title: {en: "Decision Making (Judgment)", zh: "決策的制定 (判斷)"},
+        left: { let: "T", name: {en:"Thinking", zh:"思考 (Thinking)"}, desc: {en:"Evaluates information using impersonal, objective metrics, logic, and systemic truth.", zh:"使用非個人的、客觀的指標、邏輯和系統性真理來評估資訊。"}, col: "#5A5550" },
+        right: { let: "F", name: {en:"Feeling", zh:"情感 (Feeling)"}, desc: {en:"Evaluates information using personalized, subjective values, ethics, and human impact.", zh:"使用個性化的、主觀的價值觀、倫理和對人類的影響來評估資訊。"}, col: "#D5CEC4" }
+    }
+];
+
 const baseFunctions = [
-    {id: 'Ni', name: {en:'Introverted Intuition', zh:'Introverted Intuition (內傾直覺)'}, desc: {en:'Synthesizing unconscious archetypes; forecasting singular, convergent outcomes. Probability mapping.', zh:'綜合無意識原型；預測單一、收斂的結果。機率映射。'}},
-    {id: 'Ne', name: {en:'Extraverted Intuition', zh:'Extraverted Intuition (外傾直覺)'}, desc: {en:'Generating divergent possibilities; perceiving objective connections across disparate external patterns.', zh:'產生發散的可能性；感知不同外部模式之間的客觀連結。'}},
-    {id: 'Si', name: {en:'Introverted Sensation', zh:'Introverted Sensation (內傾感覺)'}, desc: {en:'Comparing current stimuli against subjective historical impressions. Homeostatic preservation.', zh:'將當前刺激與主觀歷史印象進行比較。維持體內平衡。'}},
-    {id: 'Se', name: {en:'Extraverted Sensation', zh:'Extraverted Sensation (外傾感覺)'}, desc: {en:'Direct, kinetic engagement with objective reality. High-fidelity real-time situational awareness.', zh:'與客觀現實直接的動態接觸。高保真度的實時情境感知。'}},
-    {id: 'Ti', name: {en:'Introverted Thinking', zh:'Introverted Thinking (內傾思考)'}, desc: {en:'Creating internally consistent logical frameworks. Deconstructive deduction and precise categorization.', zh:'建立內部一致的邏輯框架。解構性演繹與精確分類。'}},
-    {id: 'Te', name: {en:'Extraverted Thinking', zh:'Extraverted Thinking (外傾思考)'}, desc: {en:'Organizing objective systems for maximum efficiency and empirical outcomes. Inductive structuring.', zh:'組織客觀系統以達到最高效率和經驗結果。歸納性結構化。'}},
-    {id: 'Fi', name: {en:'Introverted Feeling', zh:'Introverted Feeling (內傾情感)'}, desc: {en:'Evaluating information against a subjective, deeply nuanced internal moral and authentic baseline.', zh:'根據主觀、深度微妙的內在道德與真實性基準來評估資訊。'}},
-    {id: 'Fe', name: {en:'Extraverted Feeling', zh:'Extraverted Feeling (外傾情感)'}, desc: {en:'Aligning with objective social metrics. Maintaining interpersonal homeostasis and collective ethics.', zh:'與客觀社會指標保持一致。維持人際關係的平衡與集體倫理。'}}
+    {id: 'Ni', name: {en:'Introverted Intuition', zh:'Introverted Intuition (內傾直覺)'}, desc: {en:'Synthesizing unconscious archetypes; forecasting singular outcomes.', zh:'綜合無意識原型；預測單一結果。'}},
+    {id: 'Ne', name: {en:'Extraverted Intuition', zh:'Extraverted Intuition (外傾直覺)'}, desc: {en:'Generating divergent possibilities; perceiving objective connections.', zh:'產生發散的可能性；感知客觀連結。'}},
+    {id: 'Si', name: {en:'Introverted Sensation', zh:'Introverted Sensation (內傾感覺)'}, desc: {en:'Comparing current stimuli against subjective historical impressions.', zh:'將當前刺激與主觀歷史印象進行比較。'}},
+    {id: 'Se', name: {en:'Extraverted Sensation', zh:'Extraverted Sensation (外傾感覺)'}, desc: {en:'Direct, kinetic engagement with objective reality.', zh:'與客觀現實直接的動態接觸。'}},
+    {id: 'Ti', name: {en:'Introverted Thinking', zh:'Introverted Thinking (內傾思考)'}, desc: {en:'Creating internally consistent logical frameworks.', zh:'建立內部一致的邏輯框架。'}},
+    {id: 'Te', name: {en:'Extraverted Thinking', zh:'Extraverted Thinking (外傾思考)'}, desc: {en:'Organizing objective systems for maximum efficiency.', zh:'組織客觀系統以達到最高效率。'}},
+    {id: 'Fi', name: {en:'Introverted Feeling', zh:'Introverted Feeling (內傾情感)'}, desc: {en:'Evaluating information against an internal moral baseline.', zh:'根據內在道德基準來評估資訊。'}},
+    {id: 'Fe', name: {en:'Extraverted Feeling', zh:'Extraverted Feeling (外傾情感)'}, desc: {en:'Aligning with objective social metrics; interpersonal homeostasis.', zh:'與客觀社會指標保持一致；人際平衡。'}}
+];
+
+const axisData = [
+    { name: "Perceiving Axis A", pair: ["Ni", "Se"], sub: {en:["Subjective Future","Objective Present"], zh:["主觀未來","客觀當下"]}, note: {en:"As focus narrows into singular future probabilities (Ni), awareness of immediate external reality (Se) is proportionally suppressed.", zh:"當注意力縮小到單一未來概率 (Ni) 時，對外部現實 (Se) 的意識會被壓制。"} },
+    { name: "Perceiving Axis B", pair: ["Ne", "Si"], sub: {en:["Objective Possibility","Subjective Past"], zh:["客觀可能性","主觀過去"]}, note: {en:"Expanding into chaotic, diverse external ideas (Ne) destabilizes internal routine (Si).", zh:"擴展至混沌的外部思想 (Ne) 會破壞內部常規 (Si)。"} },
+    { name: "Judging Axis A", pair: ["Ti", "Fe"], sub: {en:["Internal Logic","External Ethics"], zh:["內在邏輯","外在倫理"]}, note: {en:"Constructing an autonomous, logically pure framework (Ti) often requires sacrificing alignment with collective emotional values (Fe).", zh:"構建純粹的邏輯框架 (Ti) 通常需要犧牲集體情感 (Fe)。"} },
+    { name: "Judging Axis B", pair: ["Fi", "Te"], sub: {en:["Internal Morals","External Utility"], zh:["內在道德","外在效用"]}, note: {en:"Maintaining deep authenticity (Fi) frequently contradicts the optimization of external systems (Te).", zh:"維持深度真實性 (Fi) 經常與優化外部系統 (Te) 產生矛盾。"} }
 ];
 
 const mbtiData = {
     INTJ: { name: {en:"The Architect", zh:"建築師"}, desc: {en:"Strategic, logical, visionary.", zh:"具戰略性、邏輯性、有遠見。"}, stack: ["Ni", "Te", "Fi", "Se"], shadow: ["Ne", "Ti", "Fe", "Si"], scores: [95, 40, 75, 85, 60, 20, 15, 30], quadra: 'Gamma', coords: {x: 8, y: 7}, color: '#A68A64' },
     INTP: { name: {en:"The Logician", zh:"邏輯學家"}, desc: {en:"Innovative, objective, abstract.", zh:"創新、客觀、抽象。"}, stack: ["Ti", "Ne", "Si", "Fe"], shadow: ["Te", "Ni", "Se", "Fi"], scores: [85, 95, 60, 20, 45, 75, 35, 15], quadra: 'Alpha', coords: {x: 7, y: -8}, color: '#2C2A28' },
-    ENTJ: { name: {en:"The Commander", zh:"指揮官"}, desc: {en:"Decisive, efficient, strategic leader.", zh:"果斷、高效、具戰略意義的領導者。"}, stack: ["Te", "Ni", "Se", "Fi"], shadow: ["Ti", "Ne", "Si", "Fe"], scores: [60, 85, 30, 95, 20, 70, 45, 15], quadra: 'Gamma', coords: {x: 6, y: 9}, color: '#A68A64' },
-    ENTP: { name: {en:"The Debater", zh:"辯論家"}, desc: {en:"Inventive, adaptable, conceptual.", zh:"具發明力、適應力強、概念化。"}, stack: ["Ne", "Ti", "Fe", "Si"], shadow: ["Ni", "Te", "Fi", "Se"], scores: [70, 45, 95, 65, 15, 35, 80, 25], quadra: 'Alpha', coords: {x: 9, y: -6}, color: '#2C2A28' },
-    INFJ: { name: {en:"The Advocate", zh:"提倡者"}, desc: {en:"Insightful, empathetic, idealistic.", zh:"具洞察力、同理心、理想主義。"}, stack: ["Ni", "Fe", "Ti", "Se"], shadow: ["Ne", "Fi", "Te", "Si"], scores: [95, 25, 60, 40, 20, 85, 75, 30], quadra: 'Beta', coords: {x: 8, y: -3}, color: '#7A9E9F' },
-    INFP: { name: {en:"The Mediator", zh:"調停者"}, desc: {en:"Authentic, compassionate, value-driven.", zh:"真實、富有同情心、受價值觀驅動。"}, stack: ["Fi", "Ne", "Si", "Te"], shadow: ["Fe", "Ni", "Se", "Ti"], scores: [65, 85, 45, 15, 95, 35, 75, 20], quadra: 'Delta', coords: {x: 7, y: 4}, color: '#D5CEC4' },
-    ENFJ: { name: {en:"The Protagonist", zh:"主人公"}, desc: {en:"Charismatic, inspiring, altruistic.", zh:"具魅力、鼓舞人心、利他主義。"}, stack: ["Fe", "Ni", "Se", "Ti"], shadow: ["Fi", "Ne", "Si", "Te"], scores: [85, 40, 25, 55, 75, 95, 60, 15], quadra: 'Beta', coords: {x: 5, y: -5}, color: '#7A9E9F' },
-    ENFP: { name: {en:"The Campaigner", zh:"競選者"}, desc: {en:"Enthusiastic, creative, spontaneous.", zh:"熱情、富有創造力、自發。"}, stack: ["Ne", "Fi", "Te", "Si"], shadow: ["Ni", "Fe", "Ti", "Se"], scores: [75, 30, 90, 45, 85, 65, 20, 15], quadra: 'Delta', coords: {x: 9, y: 6}, color: '#D5CEC4' },
-    ISTJ: { name: {en:"The Logistician", zh:"物流師"}, desc: {en:"Responsible, detail-oriented, pragmatic.", zh:"負責任、注重細節、務實。"}, stack: ["Si", "Te", "Fi", "Ne"], shadow: ["Se", "Ti", "Fe", "Ni"], scores: [15, 95, 30, 60, 55, 15, 40, 85], quadra: 'Delta', coords: {x: -8, y: 8}, color: '#D5CEC4' },
-    ISFJ: { name: {en:"The Defender", zh:"守衛者"}, desc: {en:"Dedicated, supportive, meticulous.", zh:"專注、具支持性、一絲不苟。"}, stack: ["Si", "Fe", "Ti", "Ne"], shadow: ["Se", "Fi", "Te", "Ni"], scores: [25, 90, 15, 35, 40, 85, 65, 75], quadra: 'Alpha', coords: {x: -8, y: -4}, color: '#2C2A28' },
-    ESTJ: { name: {en:"The Executive", zh:"總經理"}, desc: {en:"Organized, directive, objective.", zh:"有組織、具指導性、客觀。"}, stack: ["Te", "Si", "Ne", "Fi"], shadow: ["Ti", "Se", "Ni", "Fe"], scores: [35, 80, 50, 95, 20, 40, 15, 65], quadra: 'Delta', coords: {x: -6, y: 9}, color: '#D5CEC4' },
-    ESFJ: { name: {en:"The Consul", zh:"執政官"}, desc: {en:"Sociable, caring, traditional.", zh:"善於交際、充滿關愛、傳統。"}, stack: ["Fe", "Si", "Ne", "Ti"], shadow: ["Fi", "Se", "Ni", "Te"], scores: [45, 75, 40, 55, 60, 95, 15, 35], quadra: 'Alpha', coords: {x: -5, y: -6}, color: '#2C2A28' },
-    ISTP: { name: {en:"The Virtuoso", zh:"鑑賞家"}, desc: {en:"Observant, analytical, tactical.", zh:"善於觀察、具分析力、具戰術性。"}, stack: ["Ti", "Se", "Ni", "Fe"], shadow: ["Te", "Si", "Ne", "Fi"], scores: [85, 35, 45, 65, 15, 20, 90, 75], quadra: 'Beta', coords: {x: -7, y: -8}, color: '#7A9E9F' },
-    ISFP: { name: {en:"The Adventurer", zh:"探險家"}, desc: {en:"Gentle, aesthetic, present-focused.", zh:"溫和、具美感、專注於當下。"}, stack: ["Fi", "Se", "Ni", "Te"], shadow: ["Fe", "Si", "Ne", "Ti"], scores: [60, 45, 25, 20, 95, 55, 85, 65], quadra: 'Gamma', coords: {x: -7, y: 5}, color: '#A68A64' },
-    ESTP: { name: {en:"The Entrepreneur", zh:"企業家"}, desc: {en:"Energetic, pragmatic, action-oriented.", zh:"精力充沛、務實、行動導向。"}, stack: ["Se", "Ti", "Fe", "Ni"], shadow: ["Si", "Te", "Fi", "Ne"], scores: [55, 20, 75, 45, 30, 65, 95, 85], quadra: 'Beta', coords: {x: -9, y: -5}, color: '#7A9E9F' },
-    ESFP: { name: {en:"The Entertainer", zh:"表演者"}, desc: {en:"Vibrant, observant, sociable.", zh:"充滿活力、善於觀察、善於交際。"}, stack: ["Se", "Fi", "Te", "Ni"], shadow: ["Si", "Fe", "Ti", "Ne"], scores: [40, 35, 65, 25, 80, 85, 95, 55], quadra: 'Gamma', coords: {x: -9, y: 4}, color: '#A68A64' }
+    ENTJ: { name: {en:"The Commander", zh:"指揮官"}, desc: {en:"Decisive, efficient, strategic leader.", zh:"果斷、高效的戰略領導者。"}, stack: ["Te", "Ni", "Se", "Fi"], shadow: ["Ti", "Ne", "Si", "Fe"], scores: [60, 85, 30, 95, 20, 70, 45, 15], quadra: 'Gamma', coords: {x: 6, y: 9}, color: '#A68A64' },
+    ENTP: { name: {en:"The Debater", zh:"辯論家"}, desc: {en:"Inventive, adaptable, conceptual.", zh:"具發明力、適應力強。"}, stack: ["Ne", "Ti", "Fe", "Si"], shadow: ["Ni", "Te", "Fi", "Se"], scores: [70, 45, 95, 65, 15, 35, 80, 25], quadra: 'Alpha', coords: {x: 9, y: -6}, color: '#2C2A28' },
+    INFJ: { name: {en:"The Advocate", zh:"提倡者"}, desc: {en:"Insightful, empathetic, idealistic.", zh:"具洞察力、同理心。"}, stack: ["Ni", "Fe", "Ti", "Se"], shadow: ["Ne", "Fi", "Te", "Si"], scores: [95, 25, 60, 40, 20, 85, 75, 30], quadra: 'Beta', coords: {x: 8, y: -3}, color: '#7A9E9F' },
+    INFP: { name: {en:"The Mediator", zh:"調停者"}, desc: {en:"Authentic, compassionate.", zh:"真實、富有同情心。"}, stack: ["Fi", "Ne", "Si", "Te"], shadow: ["Fe", "Ni", "Se", "Ti"], scores: [65, 85, 45, 15, 95, 35, 75, 20], quadra: 'Delta', coords: {x: 7, y: 4}, color: '#D5CEC4' },
+    ENFJ: { name: {en:"The Protagonist", zh:"主人公"}, desc: {en:"Charismatic, inspiring.", zh:"具魅力、鼓舞人心。"}, stack: ["Fe", "Ni", "Se", "Ti"], shadow: ["Fi", "Ne", "Si", "Te"], scores: [85, 40, 25, 55, 75, 95, 60, 15], quadra: 'Beta', coords: {x: 5, y: -5}, color: '#7A9E9F' },
+    ENFP: { name: {en:"The Campaigner", zh:"競選者"}, desc: {en:"Enthusiastic, creative.", zh:"熱情、富有創造力。"}, stack: ["Ne", "Fi", "Te", "Si"], shadow: ["Ni", "Fe", "Ti", "Se"], scores: [75, 30, 90, 45, 85, 65, 20, 15], quadra: 'Delta', coords: {x: 9, y: 6}, color: '#D5CEC4' },
+    ISTJ: { name: {en:"The Logistician", zh:"物流師"}, desc: {en:"Responsible, detail-oriented.", zh:"負責任、注重細節。"}, stack: ["Si", "Te", "Fi", "Ne"], shadow: ["Se", "Ti", "Fe", "Ni"], scores: [15, 95, 30, 60, 55, 15, 40, 85], quadra: 'Delta', coords: {x: -8, y: 8}, color: '#D5CEC4' },
+    ISFJ: { name: {en:"The Defender", zh:"守衛者"}, desc: {en:"Dedicated, supportive.", zh:"專注、具支持性。"}, stack: ["Si", "Fe", "Ti", "Ne"], shadow: ["Se", "Fi", "Te", "Ni"], scores: [25, 90, 15, 35, 40, 85, 65, 75], quadra: 'Alpha', coords: {x: -8, y: -4}, color: '#2C2A28' },
+    ESTJ: { name: {en:"The Executive", zh:"總經理"}, desc: {en:"Organized, directive.", zh:"有組織、具指導性。"}, stack: ["Te", "Si", "Ne", "Fi"], shadow: ["Ti", "Se", "Ni", "Fe"], scores: [35, 80, 50, 95, 20, 40, 15, 65], quadra: 'Delta', coords: {x: -6, y: 9}, color: '#D5CEC4' },
+    ESFJ: { name: {en:"The Consul", zh:"執政官"}, desc: {en:"Sociable, caring.", zh:"善於交際、關愛。"}, stack: ["Fe", "Si", "Ne", "Ti"], shadow: ["Fi", "Se", "Ni", "Te"], scores: [45, 75, 40, 55, 60, 95, 15, 35], quadra: 'Alpha', coords: {x: -5, y: -6}, color: '#2C2A28' },
+    ISTP: { name: {en:"The Virtuoso", zh:"鑑賞家"}, desc: {en:"Observant, tactical.", zh:"善於觀察、具戰術性。"}, stack: ["Ti", "Se", "Ni", "Fe"], shadow: ["Te", "Si", "Ne", "Fi"], scores: [85, 35, 45, 65, 15, 20, 90, 75], quadra: 'Beta', coords: {x: -7, y: -8}, color: '#7A9E9F' },
+    ISFP: { name: {en:"The Adventurer", zh:"探險家"}, desc: {en:"Gentle, aesthetic.", zh:"溫和、具美感。"}, stack: ["Fi", "Se", "Ni", "Te"], shadow: ["Fe", "Si", "Ne", "Ti"], scores: [60, 45, 25, 20, 95, 55, 85, 65], quadra: 'Gamma', coords: {x: -7, y: 5}, color: '#A68A64' },
+    ESTP: { name: {en:"The Entrepreneur", zh:"企業家"}, desc: {en:"Energetic, pragmatic.", zh:"精力充沛、務實。"}, stack: ["Se", "Ti", "Fe", "Ni"], shadow: ["Si", "Te", "Fi", "Ne"], scores: [55, 20, 75, 45, 30, 65, 95, 85], quadra: 'Beta', coords: {x: -9, y: -5}, color: '#7A9E9F' },
+    ESFP: { name: {en:"The Entertainer", zh:"表演者"}, desc: {en:"Vibrant, observant.", zh:"充滿活力、善於觀察。"}, stack: ["Se", "Fi", "Te", "Ni"], shadow: ["Si", "Fe", "Ti", "Ne"], scores: [40, 35, 65, 25, 80, 85, 95, 55], quadra: 'Gamma', coords: {x: -9, y: 4}, color: '#A68A64' }
 };
 
-const axisData = [
-    { name: "Perceiving Axis A", pair: ["Ni", "Se"], sub: {en:["Subjective Future","Objective Present"], zh:["主觀未來","客觀當下"]}, note: {en:"As focus narrows into singular future probabilities (Ni), awareness of immediate external reality (Se) is proportionally suppressed.", zh:"當注意力縮小到單一的未來概率 (Ni) 時，對直接外部現實 (Se) 的意識會成比例地被壓制。"} },
-    { name: "Perceiving Axis B", pair: ["Ne", "Si"], sub: {en:["Objective Possibility","Subjective Past"], zh:["客觀可能性","主觀過去"]}, note: {en:"Expanding into chaotic, diverse external ideas (Ne) destabilizes internal physical/historical homeostasis and routine (Si).", zh:"擴展至混沌、多樣的外部思想 (Ne) 會破壞內部物理/歷史的平衡與常規 (Si)。"} },
-    { name: "Judging Axis A", pair: ["Ti", "Fe"], sub: {en:["Internal Logic","External Ethics"], zh:["內在邏輯","外在倫理"]}, note: {en:"Constructing an autonomous, logically pure framework (Ti) often requires sacrificing alignment with collective emotional/social values (Fe).", zh:"構建自主、邏輯純粹的框架 (Ti) 通常需要犧牲與集體情感/社會價值觀 (Fe) 的一致性。"} },
-    { name: "Judging Axis B", pair: ["Fi", "Te"], sub: {en:["Internal Morals","External Utility"], zh:["內在道德","外在效用"]}, note: {en:"Maintaining deep, individualized authenticity (Fi) frequently contradicts the optimization of external systems and objective metrics (Te).", zh:"維持深度、個性化的真實性 (Fi) 經常與優化外部系統和客觀指標 (Te) 產生矛盾。"} }
-];
-
 const quadrasList = [
-    { name: 'Alpha', types: 'INTP, ENTP, ISFJ, ESFJ', val: 'Ti, Fe, Si, Ne', desc: {en:"Focuses on theoretical frameworks, pleasant social atmospheres, and intellectual exploration without immediate pragmatic constraints.", zh:"專注於理論框架、愉快的社會氛圍以及沒有直接務實限制的智力探索。"}, col: '#A68A64' },
-    { name: 'Beta', types: 'INFJ, ENFJ, ISTP, ESTP', val: 'Ni, Se, Ti, Fe', desc: {en:"Focuses on grand visions, intense physical/emotional experiences, logical tactics, and collective systemic change.", zh:"專注於宏大的願景、強烈的身體/情感體驗、邏輯戰術以及集體的系統性變革。"}, col: '#2C2A28' },
-    { name: 'Gamma', types: 'INTJ, ENTJ, ISFP, ESFP', val: 'Ni, Se, Fi, Te', desc: {en:"Focuses on long-term strategy, objective utility, deep personal authenticity, and impactful real-world execution.", zh:"專注於長期戰略、客觀效用、深度的個人真實性以及具影響力的現實世界執行。"}, col: '#7A9E9F' },
-    { name: 'Delta', types: 'INFP, ENFP, ISTJ, ESTJ', val: 'Si, Ne, Fi, Te', desc: {en:"Focuses on personal growth, practical stabilization, improving localized systems, and idiosyncratic potential.", zh:"專注於個人成長、實際的穩定化、改善局部系統以及特異的潛力。"}, col: '#D5CEC4' }
+    { name: 'Alpha', types: 'INTP, ENTP, ISFJ, ESFJ', val: 'Ti, Fe, Si, Ne', desc: {en:"Focuses on theoretical frameworks and social atmospheres.", zh:"專注於理論框架與社會氛圍。"}, col: '#A68A64' },
+    { name: 'Beta', types: 'INFJ, ENFJ, ISTP, ESTP', val: 'Ni, Se, Ti, Fe', desc: {en:"Focuses on grand visions and intense experiences.", zh:"專注於宏大的願景與強烈的體驗。"}, col: '#2C2A28' },
+    { name: 'Gamma', types: 'INTJ, ENTJ, ISFP, ESFP', val: 'Ni, Se, Fi, Te', desc: {en:"Focuses on long-term strategy and objective utility.", zh:"專注於長期戰略與客觀效用。"}, col: '#7A9E9F' },
+    { name: 'Delta', types: 'INFP, ENFP, ISTJ, ESTJ', val: 'Si, Ne, Fi, Te', desc: {en:"Focuses on personal growth and practical stabilization.", zh:"專注於個人成長與實際的穩定。"}, col: '#D5CEC4' }
 ];
 
 const pathologyData = [
     { title: "The Inferior Grip", color: "#C65A49", symbol: "!", 
-      desc: {en: "Occurs under immense, sudden stress or chronic exhaustion of the dominant function. The psyche flips, and the undeveloped 4th function takes tyrannical control.", zh: "發生在巨大、突發的壓力或主導功能慢性疲竭之下。心理狀態發生反轉，未發展的第 4 功能掌握了專制的控制權。"},
+      desc: {en: "Occurs under immense stress. The 4th function takes tyrannical control.", zh: "發生在巨大壓力下。第 4 功能掌握專制的控制權。"},
       list: [
-          {t: "IxxJ (Se Grip)", en:"Binge eating, reckless spending, obsession with physical details.", zh:"暴飲暴食、魯莽消費、沉迷於物理細節。"},
-          {t: "ExxP (Ni Grip)", en:"Paranoia, singular catastrophic visions of the future.", zh:"偏執狂、對未來單一的災難性願景。"},
-          {t: "IxxP (Fe/Te Grip)", en:"Sudden tyrannical attempts to control others (Te), or desperate need for validation (Fe).", zh:"突然的專制企圖控制他人 (Te)，或極度渴望獲得認可 (Fe)。"},
-          {t: "ExxJ (Fi/Ti Grip)", en:"Absolute self-isolation, extreme self-judgment (Fi), or illogical rationalizations (Ti).", zh:"絕對的自我孤立、極端的自我評判 (Fi)，或不合邏輯的合理化 (Ti)。"}
+          {t: "IxxJ (Se Grip)", en:"Binge eating, obsession with physical details.", zh:"暴飲暴食、沉迷於物理細節。"},
+          {t: "ExxP (Ni Grip)", en:"Paranoia, singular catastrophic visions.", zh:"偏執狂、單一災難性願景。"},
+          {t: "IxxP (Fe/Te Grip)", en:"Tyrannical attempts to control (Te), or desperate need for validation (Fe).", zh:"專制控制他人 (Te)，或極度渴望認可 (Fe)。"},
+          {t: "ExxJ (Fi/Ti Grip)", en:"Absolute self-isolation (Fi), or illogical rationalizations (Ti).", zh:"絕對自我孤立 (Fi)，或不合邏輯的合理化 (Ti)。"}
       ]
     },
     { title: "Dominant-Tertiary Loop", color: "#2C2A28", symbol: "∞",
-      desc: {en: "A chronic defense mechanism. The individual bypasses their Auxiliary function to avoid dealing with the opposite attitude (e/i), creating an echo chamber.", zh: "一種慢性的防禦機制。個體繞過其 Auxiliary (輔助) 功能，以避免處理相反的態度 (e/i)，從而形成一個回聲室。"},
+      desc: {en: "The individual bypasses their Auxiliary function creating an echo chamber.", zh: "個體繞過其 Auxiliary 功能，形成回聲室。"},
       list: [
-          {t: {en:"Introverted Loops (e.g. Ni-Ti in INFJ)", zh:"Introverted Loops (例如 INFJ 中的 Ni-Ti)"}, en:"Detachment from reality. Constructing massive internal theories with zero real-world data.", zh:"脫離現實。在零現實數據的情況下構建龐大的內部理論。"},
-          {t: {en:"Extraverted Loops (e.g. Ne-Fe in ENTP)", zh:"Extraverted Loops (例如 ENTP 中的 Ne-Fe)"}, en:"Desperate rapid-fire idea generation purely to manipulate external social reactions.", zh:"純粹為了操縱外部社會反應而拼命快速產生想法。"}
-      ],
-      note: {en: "Treatment involves forcefully activating the Auxiliary function.", zh: "治療方法包括強制激活 Auxiliary 功能。"}
+          {t: {en:"Introverted Loops", zh:"Introverted Loops"}, en:"Detachment from reality. Constructing internal theories with zero data.", zh:"脫離現實。在零數據下構建內部理論。"},
+          {t: {en:"Extraverted Loops", zh:"Extraverted Loops"}, en:"Desperate idea generation purely to manipulate external reactions.", zh:"為操縱外部反應而拼命產生想法。"}
+      ]
     }
 ];
 
@@ -482,31 +408,58 @@ let currentTypeStr = 'INTJ';
 function initApp() {
     setupNavigation();
     renderTypeGrid();
-    updateLanguageUI(); // Renders dynamic components as well
+    updateLanguageUI();
     setTimeout(initCharts, 100);
 }
 
 function toggleLanguage() {
     currentLang = currentLang === 'en' ? 'zh' : 'en';
     updateLanguageUI();
-    if(charts.radar) updateChartsLang(); // Update chart labels
+    if(charts.radar) updateChartsLang();
 }
 
 function updateLanguageUI() {
-    // 1. Static Text
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (i18n[currentLang] && i18n[currentLang][key]) {
-            el.innerHTML = i18n[currentLang][key];
-        }
+        if (i18n[currentLang] && i18n[currentLang][key]) el.innerHTML = i18n[currentLang][key];
     });
 
-    // 2. Dynamic Sections
+    renderDichotomies();
     populateFunctionsGrid();
     renderAxes();
     updateTypeDetail(currentTypeStr);
     renderQuadras();
     renderPathology();
+}
+
+function renderDichotomies() {
+    const container = document.getElementById('dichotomy-container');
+    container.innerHTML = '';
+    dichotomyData.forEach(d => {
+        container.innerHTML += `
+            <div class="bg-white rounded-lg shadow-sm mb-4 border border-[#E2DCD0] overflow-hidden">
+                <div class="bg-[#EBE7DF] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#5A5550] border-b border-[#D5CEC4]">${d.title[currentLang]}</div>
+                <div class="flex flex-col md:flex-row">
+                    <div class="p-5 flex-1 relative">
+                        <div class="absolute top-0 right-0 p-4 text-6xl font-bold opacity-[0.03] leading-none" style="color:${d.left.col}">${d.left.let}</div>
+                        <h4 class="text-xl font-bold mb-2 flex items-center" style="color:${d.left.col}">
+                            <span class="bg-[#F8F7F4] border border-[#E2DCD0] rounded w-8 h-8 flex items-center justify-center mr-3 text-sm">${d.left.let}</span>
+                            ${d.left.name[currentLang]}
+                        </h4>
+                        <p class="text-sm text-[#4A4642] relative z-10">${d.left.desc[currentLang]}</p>
+                    </div>
+                    <div class="w-full md:w-px h-px md:h-auto bg-[#E2DCD0]"></div>
+                    <div class="p-5 flex-1 relative">
+                        <div class="absolute top-0 left-0 p-4 text-6xl font-bold opacity-[0.03] leading-none" style="color:${d.right.col}">${d.right.let}</div>
+                        <h4 class="text-xl font-bold mb-2 flex items-center" style="color:${d.right.col}">
+                            <span class="bg-[#F8F7F4] border border-[#E2DCD0] rounded w-8 h-8 flex items-center justify-center mr-3 text-sm">${d.right.let}</span>
+                            ${d.right.name[currentLang]}
+                        </h4>
+                        <p class="text-sm text-[#4A4642] relative z-10">${d.right.desc[currentLang]}</p>
+                    </div>
+                </div>
+            </div>`;
+    });
 }
 
 function populateFunctionsGrid() {
@@ -563,10 +516,10 @@ function updateTypeDetail(type) {
     document.getElementById('detail-title').innerHTML = `${type} <span class="text-[#A68A64] font-normal ml-2 text-base italic">${data.name[currentLang]}</span>`;
     document.getElementById('detail-subtitle').textContent = data.desc[currentLang];
 
-    const domL = currentLang === 'en' ? 'Dominant' : 'Dominant (主導)';
-    const auxL = currentLang === 'en' ? 'Auxiliary' : 'Auxiliary (輔助)';
-    const terL = currentLang === 'en' ? 'Tertiary' : 'Tertiary (第三)';
-    const infL = currentLang === 'en' ? 'Inferior' : 'Inferior (劣勢)';
+    const domL = currentLang === 'en' ? 'Dominant' : 'Dominant';
+    const auxL = currentLang === 'en' ? 'Auxiliary' : 'Auxiliary';
+    const terL = currentLang === 'en' ? 'Tertiary' : 'Tertiary';
+    const infL = currentLang === 'en' ? 'Inferior' : 'Inferior';
 
     let stackHtml = '<div class="text-xs space-y-2">';
     stackHtml += `<div class="flex justify-between items-center"><span class="font-semibold text-[#5A5550] w-24">${domL}:</span> <span class="bg-[#EBE7DF] font-bold px-3 py-1 rounded w-10 text-center">${data.stack[0]}</span></div>`;
@@ -576,11 +529,10 @@ function updateTypeDetail(type) {
     stackHtml += '</div>';
     document.getElementById('detail-stack').innerHTML = stackHtml;
 
-    const quadStr = currentLang === 'en' ? 'Quadra' : 'Quadra (四分體)';
+    const quadStr = currentLang === 'en' ? 'Quadra' : 'Quadra';
     const clinStr = currentLang === 'en' ? 'Clinical Note' : '臨床筆記';
     const noteStr = currentLang === 'en' 
-        ? `Prone to ${data.stack[3]} Grip under extreme stress. Optimal integration requires conscious development of ${data.stack[1]}.`
-        : `在極端壓力下容易陷入 ${data.stack[3]} Grip。最佳的整合需要有意識地發展 ${data.stack[1]}。`;
+        ? `Prone to ${data.stack[3]} Grip under extreme stress.` : `在極端壓力下容易陷入 ${data.stack[3]} Grip。`;
     
     document.getElementById('detail-clinical-notes').innerHTML = `<strong>${quadStr}:</strong> ${data.quadra}<br><strong>${clinStr}:</strong> ${noteStr}`;
 
@@ -613,16 +565,13 @@ function renderPathology() {
             const title = typeof l.t === 'string' ? l.t : l.t[currentLang];
             return `<li><strong class="text-[#A68A64]">${title}:</strong> ${l[currentLang]}</li>`;
         }).join('');
-        
-        let noteHtml = p.note ? `<li class="mt-4 text-[10px] text-center italic text-[#8A8580] pt-2 border-t border-[#EBE7DF] list-none">${p.note[currentLang]}</li>` : '';
-
         container.innerHTML += `
             <div class="bg-white p-6 rounded-lg border-t-4 shadow-md relative overflow-hidden" style="border-top-color: ${p.color}">
                 <div class="absolute -right-4 -top-4 text-8xl text-[#F8F7F4] font-bold opacity-50 z-0">${p.symbol}</div>
                 <div class="relative z-10">
                     <h3 class="text-xl font-bold mb-3 text-[#1A1818]">${p.title}</h3>
                     <p class="text-sm text-[#4A4642] mb-4 border-b border-[#EBE7DF] pb-4">${p.desc[currentLang]}</p>
-                    <ul class="text-xs space-y-3">${listHtml}${noteHtml}</ul>
+                    <ul class="text-xs space-y-3">${listHtml}</ul>
                 </div>
             </div>`;
     });
@@ -636,15 +585,12 @@ function setupNavigation() {
         btn.addEventListener('click', (e) => {
             btns.forEach(b => b.classList.remove('active'));
             e.target.classList.add('active');
-
             const targetId = e.target.getAttribute('data-target');
             sections.forEach(sec => { sec.classList.add('hidden'); sec.classList.remove('fade-in'); });
-            
             const activeSec = document.getElementById(targetId);
             activeSec.classList.remove('hidden');
             void activeSec.offsetWidth; 
             activeSec.classList.add('fade-in');
-
             Object.values(charts).forEach(c => { if(c && typeof c.resize === 'function') c.resize(); });
         });
     });
@@ -652,24 +598,14 @@ function setupNavigation() {
 
 // --- CHARTS ---
 function initCharts() {
-    Chart.defaults.font.family = 'Inter';
-    Chart.defaults.color = '#5A5550';
-
-    // 1. Radar
+    Chart.defaults.font.family = 'Inter'; Chart.defaults.color = '#5A5550';
     const ctxRadar = document.getElementById('radarChart').getContext('2d');
     charts.radar = new Chart(ctxRadar, {
         type: 'radar',
-        data: {
-            labels: labelsRadar,
-            datasets: [
-                { label: 'Ego', data: mbtiData['INTJ'].scores, backgroundColor: 'rgba(166, 138, 100, 0.4)', borderColor: 'rgba(166, 138, 100, 1)', borderWidth: 2, tension: 0.3 },
-                { label: 'Shadow', data: [10, 60, 25, 15, 40, 80, 85, 70], backgroundColor: 'rgba(44, 42, 40, 0.05)', borderColor: 'rgba(44, 42, 40, 0.3)', borderDash: [5, 5], pointRadius: 0, borderWidth: 1 }
-            ]
-        },
+        data: { labels: labelsRadar, datasets: [{ label: 'Ego', data: mbtiData['INTJ'].scores, backgroundColor: 'rgba(166, 138, 100, 0.4)', borderColor: 'rgba(166, 138, 100, 1)', borderWidth: 2, tension: 0.3 }, { label: 'Shadow', data: [10, 60, 25, 15, 40, 80, 85, 70], backgroundColor: 'rgba(44, 42, 40, 0.05)', borderColor: 'rgba(44, 42, 40, 0.3)', borderDash: [5, 5], pointRadius: 0, borderWidth: 1 }] },
         options: { responsive: true, maintainAspectRatio: false, scales: { r: { min: 0, max: 100, ticks: {display: false}, pointLabels: {font: {size: 14, weight: 'bold'}} } }, plugins: { legend: { display: false } } }
     });
 
-    // 2. Polar
     const ctxPolar = document.getElementById('polarChart').getContext('2d');
     charts.polar = new Chart(ctxPolar, {
         type: 'polarArea',
@@ -677,39 +613,29 @@ function initCharts() {
         options: { responsive: true, maintainAspectRatio: false, scales: { r: { ticks: {display: false} } }, plugins: { legend: { position: 'right', labels: {font: {size: 10}} } } }
     });
 
-    // 3. Line
     const ctxLine = document.getElementById('lineChart').getContext('2d');
     charts.line = new Chart(ctxLine, {
         type: 'line',
-        data: {
-            labels: ['Baseline', 'Mild Load', 'Moderate Load', 'Severe Load (Grip)', 'Recovery Phase', 'Integration'],
-            datasets: [
-                { label: 'Ni/Te (Primary)', data: [95, 85, 50, 15, 65, 90], borderColor: '#2C2A28', backgroundColor: 'transparent', tension: 0.4, borderWidth: 3 },
-                { label: 'Ne/Ti (Shadow)', data: [15, 30, 60, 45, 35, 25], borderColor: '#A68A64', borderDash: [5, 5], tension: 0.4, borderWidth: 2 },
-                { label: 'Se/Fi (Inferior)', data: [5, 15, 35, 90, 25, 20], borderColor: '#C65A49', backgroundColor: 'rgba(198, 90, 73, 0.1)', fill: true, tension: 0.4, borderWidth: 2 }
-            ]
-        },
-        options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, plugins: { legend: { position: 'bottom' } }, scales: { y: { max: 100, title: {display: true, text: 'Cognitive Dominance %'} } } }
+        data: { labels: ['Baseline', 'Mild Load', 'Moderate Load', 'Severe Load', 'Recovery', 'Integration'], datasets: [{ label: 'Ni/Te (Primary)', data: [95, 85, 50, 15, 65, 90], borderColor: '#2C2A28', backgroundColor: 'transparent', tension: 0.4, borderWidth: 3 }, { label: 'Ne/Ti (Shadow)', data: [15, 30, 60, 45, 35, 25], borderColor: '#A68A64', borderDash: [5, 5], tension: 0.4, borderWidth: 2 }, { label: 'Se/Fi (Inferior)', data: [5, 15, 35, 90, 25, 20], borderColor: '#C65A49', backgroundColor: 'rgba(198, 90, 73, 0.1)', fill: true, tension: 0.4, borderWidth: 2 }] },
+        options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, plugins: { legend: { position: 'bottom' } }, scales: { y: { max: 100, title: {display: true, text: 'Dominance %'} } } }
     });
 
-    // 4. Scatter
     const ctxScatter = document.getElementById('scatterChart').getContext('2d');
     const scatterData = Object.keys(mbtiData).map(key => ({ x: mbtiData[key].coords.x, y: mbtiData[key].coords.y, label: key, color: mbtiData[key].color }));
     charts.scatter = new Chart(ctxScatter, {
         type: 'scatter',
         data: { datasets: [{ label: 'Coordinates', data: scatterData, backgroundColor: scatterData.map(d => d.color), pointRadius: 8, pointHoverRadius: 12 }] },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => ctx.raw.label } } }, scales: { x: { min: -10, max: 10, title: {display: true, text: '← Physical (S) | Perception Axis | Abstract (N) →'}, grid: {color: (ctx) => ctx.tick.value === 0 ? '#2C2A28' : 'rgba(0,0,0,0.05)'} }, y: { min: -10, max: 10, title: {display: true, text: '← Subjective (F) | Judgment Axis | Objective (T) →'}, grid: {color: (ctx) => ctx.tick.value === 0 ? '#2C2A28' : 'rgba(0,0,0,0.05)'} } } }
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => ctx.raw.label } } }, scales: { x: { min: -10, max: 10, title: {display: true, text: '← Physical (S) | Perception | Abstract (N) →'}, grid: {color: (ctx) => ctx.tick.value === 0 ? '#2C2A28' : 'rgba(0,0,0,0.05)'} }, y: { min: -10, max: 10, title: {display: true, text: '← Subjective (F) | Judgment | Objective (T) →'}, grid: {color: (ctx) => ctx.tick.value === 0 ? '#2C2A28' : 'rgba(0,0,0,0.05)'} } } }
     });
 
-    // 5. Bubble
     const ctxBubble = document.getElementById('bubbleChart').getContext('2d');
     charts.bubble = new Chart(ctxBubble, {
         type: 'bubble',
         data: { datasets: relationData.map(d => ({ label: d.label, data: [{x: d.x, y: d.y, r: d.r}], backgroundColor: d.x > 60 ? 'rgba(198, 90, 73, 0.6)' : 'rgba(166, 138, 100, 0.6)', borderColor: d.x > 60 ? '#C65A49' : '#A68A64', borderWidth: 1 })) },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label} (Pot: ${ctx.raw.r})` } } }, scales: { x: { min: 0, max: 100, title: {display: true, text: 'Friction'} }, y: { min: 0, max: 100, title: {display: true, text: 'Synergy'} } } }
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}` } } }, scales: { x: { min: 0, max: 100, title: {display: true, text: 'Friction'} }, y: { min: 0, max: 100, title: {display: true, text: 'Synergy'} } } }
     });
 
-    updateChartsLang(); // Sync initial language text on charts
+    updateChartsLang();
 }
 
 function updatePolarChart(quadra) {
@@ -725,21 +651,18 @@ function updatePolarChart(quadra) {
 
 function updateChartsLang() {
     if(charts.line) {
-        const lineLabels = currentLang === 'en' 
-            ? ['Baseline', 'Mild Load', 'Moderate Load', 'Severe Load (Grip)', 'Recovery Phase', 'Integration']
-            : ['基準線', '輕度負荷', '中度負荷', '重度負荷 (Grip)', '恢復期', '整合期'];
-        charts.line.data.labels = lineLabels;
+        charts.line.data.labels = currentLang === 'en' ? ['Baseline', 'Mild Load', 'Moderate Load', 'Severe Load (Grip)', 'Recovery Phase', 'Integration'] : ['基準線', '輕度負荷', '中度負荷', '重度負荷 (Grip)', '恢復期', '整合期'];
         charts.line.options.scales.y.title.text = currentLang === 'en' ? 'Cognitive Dominance %' : '認知主導比例 %';
         charts.line.update();
     }
     if(charts.scatter) {
-        charts.scatter.options.scales.x.title.text = currentLang === 'en' ? '← Physical (S) | Perception Axis | Abstract (N) →' : '← 物理 (S) | 感知軸 (Perception) | 抽象 (N) →';
-        charts.scatter.options.scales.y.title.text = currentLang === 'en' ? '← Subjective (F) | Judgment Axis | Objective (T) →' : '← 主觀 (F) | 判斷軸 (Judgment) | 客觀 (T) →';
+        charts.scatter.options.scales.x.title.text = currentLang === 'en' ? '← Physical (S) | Perception Axis | Abstract (N) →' : '← 物理 (S) | 感知軸 | 抽象 (N) →';
+        charts.scatter.options.scales.y.title.text = currentLang === 'en' ? '← Subjective (F) | Judgment Axis | Objective (T) →' : '← 主觀 (F) | 判斷軸 | 客觀 (T) →';
         charts.scatter.update();
     }
     if(charts.bubble) {
-        charts.bubble.options.scales.x.title.text = currentLang === 'en' ? 'Communication Friction (Translation Cost)' : '溝通摩擦 (翻譯成本)';
-        charts.bubble.options.scales.y.title.text = currentLang === 'en' ? 'Cognitive Synergy (Natural Flow)' : '認知協同 (自然流動)';
+        charts.bubble.options.scales.x.title.text = currentLang === 'en' ? 'Communication Friction' : '溝通摩擦';
+        charts.bubble.options.scales.y.title.text = currentLang === 'en' ? 'Cognitive Synergy' : '認知協同';
         charts.bubble.update();
     }
 }
