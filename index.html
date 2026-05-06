@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comprehensive Advanced MBTI Clinical Manual</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #F8F7F4;
+    color: #2C2A28;
+}
+h1, h2, h3, h4, h5, h6, .serif-text {
+    font-family: 'Playfair Display', serif;
+}
+.chart-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 40vh;
+    max-height: 450px;
+}
+.chart-container-large {
+    position: relative;
+    width: 100%;
+    height: 60vh;
+    max-height: 600px;
+}
+@media (min-width: 768px) {
+    .chart-container { height: 45vh; max-height: 500px; }
+}
+.nav-group-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8A8580;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    font-weight: 600;
+}
+.nav-btn {
+    transition: all 0.2s ease-in-out;
+    padding-left: 1.5rem;
+    border-left: 4px solid transparent;
+}
+.nav-btn.active {
+    background-color: #E2DCD0;
+    font-weight: 600;
+    border-left: 4px solid #A68A64;
+    color: #1A1818;
+}
+.nav-btn:hover:not(.active) {
+    background-color: #EBE7DF;
+    border-left: 4px solid #D5CEC4;
+}
+.type-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.type-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+.type-card.active-type {
+    border: 2px solid #A68A64;
+    background-color: #Fdfcfb;
+    box-shadow: inset 0 0 0 1px rgba(166,138,100,0.2);
+}
+.fade-in {
+    animation: fadeIn 0.4s ease-in-out forwards;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.axis-link {
+    background: linear-gradient(90deg, transparent, #D5CEC4, transparent);
+    height: 2px;
+    width: 100%;
+}
+/* Math/Notation styling */
+.notation-block {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #EBE7DF;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    color: #1A1818;
+    font-weight: bold;
+}
+.custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+.custom-scroll::-webkit-scrollbar-track { background: transparent; }
+.custom-scroll::-webkit-scrollbar-thumb { background-color: #D5CEC4; border-radius: 10px; }
+</style>
+</head>
+<body class="flex flex-col md:flex-row h-screen overflow-hidden">
+
+<!-- Chosen Palette: Warm Neutrals & Alabaster (Bg: #F8F7F4, Text: #2C2A28, Accent: #A68A64, UI Elements: #E2DCD0) -->
+<!-- Application Structure Plan: To accommodate the "much more detailed" request, the architecture shifts to a nested hierarchical sidebar. 
+    1. Axioms (Basics & New Notation Math)
+    2. Matrices (Interactive 16 Types & New Quadra Groupings)
+    3. DAT Dynamics (Fluidity & New Phase Space Scatter Plot)
+    4. Inter-Type Dynamics (New Bubble chart for compatibility/friction)
+    5. Clinical Pathology.
+    This deepens the dashboard into a true "encyclopedia" while maintaining single-page flow. Charts are constrained strictly. -->
+<!-- Visualization & Content Choices: 
+    1. Dynamic Symbols: HTML/CSS flexbox diagrams mapping how N+i=Ni and Axis coupling (Ni-Se). Justification: Clearest way to show text-based logic math without SVG.
+    2. Quadras: Polar Area Chart (Chart.js). Justification: Perfect for showing 4 groups sharing cognitive weights symmetrically.
+    3. Phase Space: Scatter Plot (Chart.js). Justification: Maps the "Dynamic Attractor Theory" visually, showing distance and orbital paths between types based on cognitive similarity.
+    4. Inter-Type: Bubble Chart (Chart.js). Justification: X=Friction, Y=Synergy, R=Growth. Maps complex relationships simultaneously.
+-->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+<nav class="w-full md:w-72 bg-[#EBE7DF] h-auto md:h-full flex-shrink-0 flex flex-col border-r border-[#D5CEC4] overflow-y-auto custom-scroll">
+    <div class="p-6 pb-2">
+        <h1 class="text-2xl font-semibold text-[#1A1818] leading-tight serif-text">MBTI Systema</h1>
+        <p class="text-xs mt-2 text-[#5A5550] uppercase tracking-widest font-semibold">Clinical Data Core v3.0</p>
+    </div>
+    
+    <div class="flex flex-row md:flex-col overflow-x-auto md:overflow-visible custom-scroll pb-4">
+        <div class="nav-group-title hidden md:block">I. Theoretical Axioms</div>
+        <button data-target="sec-intro-functions" class="nav-btn active text-left py-2 text-sm text-[#3A3632] whitespace-nowrap md:whitespace-normal">1.1 Information Metabolism</button>
+        <button data-target="sec-intro-syntax" class="nav-btn text-left py-2 text-sm text-[#3A3632] whitespace-nowrap md:whitespace-normal">1.2 Dynamic Syntax & Formulas</button>
+        
+        <div class="nav-group-title hidden md:block">II. Typology Matrices</div>
+        <button data-target="sec-matrix-types" class="nav-btn text-left py-2 text-sm text-[#3A3632] whitespace-nowrap md:whitespace-normal">2.1 The 16 Attractors (Radar)</button>
+        <button data-target="sec-matrix-quadras" class="nav-btn text-left py-2 text-sm text-[#3A3632] whitespace-nowrap md:whitespace-normal">2.2 Cognitive Quadras (Polar)</button>
+
+        <div class="nav-group-title hidden md:block">III. Dynamic Systems (DAT)</div>
+        <button data-target="sec-dat-fluidity" class="nav-btn text-left py-2 text-sm text-[#3A3632] whitespace-nowrap md:whitespace-normal">3.1 State Variance Index</button>
+        <button data-target="sec-dat-phase" class="nav-btn text-left py-2 text-sm text-[#3A3632] whitespace-nowrap md:whitespace-normal">3.2 Phase Space Mapping</button>
+        
+        <div class="nav-group-title hidden md:block">IV. Relational Mechanics</div>
+        <button data-target="sec-rel-dynamics" class="nav-btn text-left py-2 text-sm text-[#3A3632] whitespace-nowrap md:whitespace-normal">4.1 Inter-Type Friction vs Synergy</button>
+
+        <div class="nav-group-title hidden md:block">V. Clinical Practice</div>
+        <button data-target="sec-app-pathology" class="nav-btn text-left py-2 text-sm text-[#3A3632] whitespace-nowrap md:whitespace-normal">5.1 Pathologies & Loops</button>
+    </div>
+</nav>
+
+<main class="flex-1 overflow-y-auto custom-scroll bg-[#F8F7F4] p-6 md:p-10 relative" id="main-content">
+
+    <!-- 1.1 INFORMATION METABOLISM -->
+    <section id="sec-intro-functions" class="content-section fade-in max-w-5xl mx-auto">
+        <header class="mb-8 border-b border-[#D5CEC4] pb-6">
+            <h2 class="text-4xl font-bold text-[#1A1818] mb-4 serif-text">Information Metabolism & The 8 Functions</h2>
+            <p class="text-lg text-[#4A4642] leading-relaxed">The foundational elements of the psyche. Rather than behavioral traits, MBTI defines the specific neurological and psychological pathways through which an individual perceives data (Irrational functions) and organizes that data into decisions (Rational functions).</p>
+        </header>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Functions populated by JS for brevity, see init() -->
+            <div id="functions-grid-container" class="col-span-1 sm:col-span-2 lg:col-span-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+        </div>
+    </section>
+
+    <!-- 1.2 DYNAMIC SYNTAX & FORMULAS (NEW) -->
+    <section id="sec-intro-syntax" class="content-section hidden max-w-5xl mx-auto">
+        <header class="mb-8 border-b border-[#D5CEC4] pb-6">
+            <h2 class="text-4xl font-bold text-[#1A1818] mb-4 serif-text">Dynamic Syntax & Relationship of Symbols</h2>
+            <p class="text-lg text-[#4A4642] leading-relaxed">To move beyond amateur profiling, we mathematically define the cognitive stack. Functions do not operate in isolation; they exist on polarized axes. Pushing one end of the axis inevitably pulls the other.</p>
+        </header>
+
+        <div class="bg-white p-6 rounded-lg border border-[#E2DCD0] mb-8 shadow-sm">
+            <h3 class="text-xl font-semibold mb-4 text-[#A68A64]">The Psychic State Equation</h3>
+            <p class="text-sm mb-4">An individual's cognitive orientation (<span class="notation-block">Ψ</span>) is the sum of their functions (<span class="notation-block">F</span>), modified by their attitude (<span class="notation-block">a</span> : e/i) and their hierarchical weight/position (<span class="notation-block">ω</span>).</p>
+            <div class="bg-[#F8F7F4] p-4 rounded text-center text-xl font-mono text-[#1A1818] border border-[#D5CEC4] mb-4">
+                Ψ(type) = Σ [ ω_n( F_x(a) ) ] + (Environmental Variance)
+            </div>
+            <p class="text-xs text-[#5A5550] text-center">Where ω_1 (Dominant) = 4, ω_2 (Aux) = 3, ω_3 (Tert) = 2, ω_4 (Inf) = 1. Shadow functions possess negative ω weights (unconscious tension).</p>
+        </div>
+
+        <h3 class="text-2xl font-semibold mb-6 serif-text">The Cognitive Axes (The Law of Polarity)</h3>
+        <p class="text-sm mb-6 text-[#4A4642]">Every perceiving function is permanently tethered to its opposite orientation and counterpart. Every judging function is similarly tethered. These are the gears of the mind.</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Axis 1 -->
+            <div class="bg-white p-5 rounded border border-[#E2DCD0] flex flex-col items-center justify-center">
+                <div class="font-bold text-[#1A1818] mb-2 uppercase text-xs tracking-widest">Perceiving Axis A</div>
+                <div class="flex items-center w-full justify-between px-4">
+                    <div class="text-center"><span class="text-2xl font-bold">Ni</span><br><span class="text-[10px] text-[#A68A64]">Subjective Future</span></div>
+                    <div class="flex-1 flex items-center px-4"><div class="axis-link"></div><div class="px-2 text-xs font-mono text-[#8A8580]">TENSION</div><div class="axis-link"></div></div>
+                    <div class="text-center"><span class="text-2xl font-bold">Se</span><br><span class="text-[10px] text-[#A68A64]">Objective Present</span></div>
+                </div>
+                <p class="text-xs text-[#5A5550] mt-4 text-center">As focus narrows into singular future probabilities (Ni), awareness of immediate external reality (Se) is proportionally suppressed. The INTJ/INFJ constant struggle.</p>
+            </div>
+            <!-- Axis 2 -->
+            <div class="bg-white p-5 rounded border border-[#E2DCD0] flex flex-col items-center justify-center">
+                <div class="font-bold text-[#1A1818] mb-2 uppercase text-xs tracking-widest">Perceiving Axis B</div>
+                <div class="flex items-center w-full justify-between px-4">
+                    <div class="text-center"><span class="text-2xl font-bold">Ne</span><br><span class="text-[10px] text-[#A68A64]">Objective Possibility</span></div>
+                    <div class="flex-1 flex items-center px-4"><div class="axis-link"></div><div class="px-2 text-xs font-mono text-[#8A8580]">TENSION</div><div class="axis-link"></div></div>
+                    <div class="text-center"><span class="text-2xl font-bold">Si</span><br><span class="text-[10px] text-[#A68A64]">Subjective Past</span></div>
+                </div>
+                <p class="text-xs text-[#5A5550] mt-4 text-center">Expanding into chaotic, diverse external ideas (Ne) destabilizes internal physical/historical homeostasis and routine (Si).</p>
+            </div>
+            <!-- Axis 3 -->
+            <div class="bg-white p-5 rounded border border-[#E2DCD0] flex flex-col items-center justify-center">
+                <div class="font-bold text-[#1A1818] mb-2 uppercase text-xs tracking-widest">Judging Axis A</div>
+                <div class="flex items-center w-full justify-between px-4">
+                    <div class="text-center"><span class="text-2xl font-bold">Ti</span><br><span class="text-[10px] text-[#A68A64]">Internal Logic</span></div>
+                    <div class="flex-1 flex items-center px-4"><div class="axis-link"></div><div class="px-2 text-xs font-mono text-[#8A8580]">TENSION</div><div class="axis-link"></div></div>
+                    <div class="text-center"><span class="text-2xl font-bold">Fe</span><br><span class="text-[10px] text-[#A68A64]">External Ethics</span></div>
+                </div>
+                <p class="text-xs text-[#5A5550] mt-4 text-center">Constructing an autonomous, logically pure framework (Ti) often requires sacrificing alignment with collective emotional/social values (Fe).</p>
+            </div>
+            <!-- Axis 4 -->
+            <div class="bg-white p-5 rounded border border-[#E2DCD0] flex flex-col items-center justify-center">
+                <div class="font-bold text-[#1A1818] mb-2 uppercase text-xs tracking-widest">Judging Axis B</div>
+                <div class="flex items-center w-full justify-between px-4">
+                    <div class="text-center"><span class="text-2xl font-bold">Fi</span><br><span class="text-[10px] text-[#A68A64]">Internal Morals</span></div>
+                    <div class="flex-1 flex items-center px-4"><div class="axis-link"></div><div class="px-2 text-xs font-mono text-[#8A8580]">TENSION</div><div class="axis-link"></div></div>
+                    <div class="text-center"><span class="text-2xl font-bold">Te</span><br><span class="text-[10px] text-[#A68A64]">External Utility</span></div>
+                </div>
+                <p class="text-xs text-[#5A5550] mt-4 text-center">Maintaining deep, individualized authenticity (Fi) frequently contradicts the optimization of external systems and objective metrics (Te).</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2.1 THE 16 ATTRACTORS (RADAR) -->
+    <section id="sec-matrix-types" class="content-section hidden max-w-6xl mx-auto">
+        <header class="mb-8 border-b border-[#D5CEC4] pb-6">
+            <h2 class="text-4xl font-bold text-[#1A1818] mb-4 serif-text">Interactive Typology Matrix (16 Attractors)</h2>
+            <p class="text-lg text-[#4A4642] leading-relaxed">Select an attractor to generate its multi-axial cognitive profile. The radar chart illustrates activation potential across the 8-function (Beebe) model, mapping the ego stack against the shadow stack.</p>
+        </header>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+            <div class="w-full lg:w-1/3 flex flex-col h-full">
+                <div class="grid grid-cols-4 gap-2 mb-4" id="type-grid"></div>
+                <div class="bg-white p-5 rounded-lg border border-[#E2DCD0] flex-1">
+                    <h4 class="font-bold text-xl text-[#1A1818] border-b border-[#D5CEC4] pb-2 mb-3 serif-text" id="detail-title">Select a Type</h4>
+                    <p class="text-sm text-[#5A5550] italic mb-4" id="detail-subtitle">Clinical Overview</p>
+                    <div class="space-y-2 mb-4" id="detail-stack"></div>
+                    <div class="text-xs text-[#4A4642] bg-[#F8F7F4] p-3 rounded border border-[#EBE7DF]" id="detail-clinical-notes">
+                        <!-- Notes populated dynamically -->
+                    </div>
+                </div>
+            </div>
+            <div class="w-full lg:w-2/3 bg-white p-6 rounded-lg border border-[#E2DCD0] flex flex-col justify-center shadow-sm">
+                <h3 class="text-center text-lg font-semibold mb-2 text-[#1A1818] uppercase tracking-wide">Cognitive Resonance Map</h3>
+                <div class="chart-container w-full">
+                    <canvas id="radarChart"></canvas>
+                </div>
+                <div class="flex justify-center gap-4 mt-4 text-xs font-semibold">
+                    <div class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-[rgba(166,138,100,0.8)]"></span> Conscious Ego</div>
+                    <div class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-[rgba(44,42,40,0.2)] border border-[#2C2A28]"></span> Unconscious Shadow</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2.2 COGNITIVE QUADRAS (POLAR) -->
+    <section id="sec-matrix-quadras" class="content-section hidden max-w-5xl mx-auto">
+        <header class="mb-8 border-b border-[#D5CEC4] pb-6">
+            <h2 class="text-4xl font-bold text-[#1A1818] mb-4 serif-text">Cognitive Quadras & Synchronicity</h2>
+            <p class="text-lg text-[#4A4642] leading-relaxed">Types that share the exact same four cognitive functions (regardless of order) belong to a "Quadra". These groups share fundamental philosophical baselines and communicate with zero cognitive translation required, leading to high synergy.</p>
+        </header>
+
+        <div class="flex flex-col md:flex-row gap-8 items-center">
+            <div class="w-full md:w-1/2">
+                <div class="chart-container w-full">
+                    <canvas id="polarChart"></canvas>
+                </div>
+                <p class="text-center text-xs text-[#7A7570] mt-4">Volume represents shared functional valuation within the Quadra.</p>
+            </div>
+            <div class="w-full md:w-1/2 space-y-4">
+                <div class="bg-white p-4 rounded border-l-4 border-l-[#A68A64] shadow-sm cursor-pointer hover:bg-[#F8F7F4]" onclick="updatePolarChart('Alpha')">
+                    <h4 class="font-bold text-[#1A1818]">Alpha Quadra <span class="text-xs font-normal text-[#8A8580] ml-2">(INTP, ENTP, ISFJ, ESFJ)</span></h4>
+                    <p class="text-xs text-[#4A4642] mt-1"><span class="font-semibold">Values:</span> Ti, Fe, Si, Ne. Focuses on theoretical frameworks, pleasant social atmospheres, and intellectual exploration without immediate pragmatic constraints.</p>
+                </div>
+                <div class="bg-white p-4 rounded border-l-4 border-l-[#2C2A28] shadow-sm cursor-pointer hover:bg-[#F8F7F4]" onclick="updatePolarChart('Beta')">
+                    <h4 class="font-bold text-[#1A1818]">Beta Quadra <span class="text-xs font-normal text-[#8A8580] ml-2">(INFJ, ENFJ, ISTP, ESTP)</span></h4>
+                    <p class="text-xs text-[#4A4642] mt-1"><span class="font-semibold">Values:</span> Ni, Se, Ti, Fe. Focuses on grand visions, intense physical/emotional experiences, logical tactics, and collective systemic change.</p>
+                </div>
+                <div class="bg-white p-4 rounded border-l-4 border-l-[#7A9E9F] shadow-sm cursor-pointer hover:bg-[#F8F7F4]" onclick="updatePolarChart('Gamma')">
+                    <h4 class="font-bold text-[#1A1818]">Gamma Quadra <span class="text-xs font-normal text-[#8A8580] ml-2">(INTJ, ENTJ, ISFP, ESFP)</span></h4>
+                    <p class="text-xs text-[#4A4642] mt-1"><span class="font-semibold">Values:</span> Ni, Se, Fi, Te. Focuses on long-term strategy, objective utility, deep personal authenticity, and impactful real-world execution.</p>
+                </div>
+                <div class="bg-white p-4 rounded border-l-4 border-l-[#D5CEC4] shadow-sm cursor-pointer hover:bg-[#F8F7F4]" onclick="updatePolarChart('Delta')">
+                    <h4 class="font-bold text-[#1A1818]">Delta Quadra <span class="text-xs font-normal text-[#8A8580] ml-2">(INFP, ENFP, ISTJ, ESTJ)</span></h4>
+                    <p class="text-xs text-[#4A4642] mt-1"><span class="font-semibold">Values:</span> Si, Ne, Fi, Te. Focuses on personal growth, practical stabilization, improving localized systems, and idiosyncratic potential.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3.1 STATE VARIANCE INDEX -->
+    <section id="sec-dat-fluidity" class="content-section hidden max-w-5xl mx-auto">
+        <header class="mb-8 border-b border-[#D5CEC4] pb-6">
+            <h2 class="text-4xl font-bold text-[#1A1818] mb-4 serif-text">DAT: State Variance & Fluidity Index</h2>
+            <p class="text-lg text-[#4A4642] leading-relaxed">Traditional models fail because they assume static cognition. The Dynamic Attractor Theory (DAT) models personality as a probabilistic center. Under stress or growth, individuals exhibit "fluidity," migrating their cognitive usage toward shadow or inferior basins.</p>
+        </header>
+
+        <div class="bg-white p-6 rounded-lg border border-[#E2DCD0] shadow-sm mb-6">
+            <h3 class="text-center text-lg font-semibold mb-4 text-[#1A1818] uppercase tracking-wide">Cognitive Variance Under Allostatic Load (INTJ Model)</h3>
+            <div class="chart-container w-full">
+                <canvas id="lineChart"></canvas>
+            </div>
+            <p class="text-center text-xs text-[#7A7570] mt-4">At "Severe Stress," primary systems (Ni/Te) collapse, triggering the Inferior Grip (Se/Fi) to take emergency psychic control.</p>
+        </div>
+    </section>
+
+    <!-- 3.2 PHASE SPACE MAPPING (NEW) -->
+    <section id="sec-dat-phase" class="content-section hidden max-w-5xl mx-auto">
+        <header class="mb-8 border-b border-[#D5CEC4] pb-6">
+            <h2 class="text-4xl font-bold text-[#1A1818] mb-4 serif-text">DAT: Neuro-Psychic Phase Space</h2>
+            <p class="text-lg text-[#4A4642] leading-relaxed">Visualizing the 16 types not as separate boxes, but as coordinates within a 2D psychic continuum. Proximity indicates ease of cognitive transition and similarity in information processing.</p>
+        </header>
+
+        <div class="flex flex-col lg:flex-row gap-6 items-start">
+            <div class="w-full lg:w-3/4 bg-white p-6 rounded-lg border border-[#E2DCD0] shadow-sm">
+                 <div class="chart-container-large w-full">
+                    <canvas id="scatterChart"></canvas>
+                </div>
+            </div>
+            <div class="w-full lg:w-1/4 space-y-4">
+                <div class="bg-[#2C2A28] text-white p-4 rounded shadow-md">
+                    <h4 class="font-bold text-sm mb-2 border-b border-[#5A5550] pb-1">Axes Explanation</h4>
+                    <p class="text-xs mb-2"><span class="text-[#A68A64] font-bold">X-Axis (Perception):</span> Ranges from absolute physical specificity (Se/Si) to absolute abstract conceptualization (Ne/Ni).</p>
+                    <p class="text-xs"><span class="text-[#A68A64] font-bold">Y-Axis (Judgment):</span> Ranges from depersonalized objective systems (Te/Ti) to highly personalized subjective ethics (Fe/Fi).</p>
+                </div>
+                <div class="bg-white p-4 rounded border border-[#E2DCD0] text-xs text-[#4A4642]">
+                    <p class="font-bold text-[#1A1818] mb-1">Orbital Mechanics:</p>
+                    <p>An individual's state point can fluctuate. A depressed ENFP might physically map closer to an ISTJ coordinate as they rely heavily on their Te/Si inferior functions to survive.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4.1 INTER-TYPE DYNAMICS (NEW) -->
+    <section id="sec-rel-dynamics" class="content-section hidden max-w-6xl mx-auto">
+        <header class="mb-8 border-b border-[#D5CEC4] pb-6">
+            <h2 class="text-4xl font-bold text-[#1A1818] mb-4 serif-text">Inter-Type Mechanics: Synergy vs Friction</h2>
+            <p class="text-lg text-[#4A4642] leading-relaxed">Mapping the theoretical compatibility between typologies. High synergy reduces communication cost, while high friction increases it. However, high friction often correlates with maximum mutual growth potential if integrated successfully.</p>
+        </header>
+
+        <div class="bg-white p-6 rounded-lg border border-[#E2DCD0] shadow-sm mb-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold text-[#1A1818]">Relationship Topology (Base: INTJ)</h3>
+                <span class="text-xs bg-[#EBE7DF] px-3 py-1 rounded text-[#5A5550] font-bold">Hover for metrics</span>
+            </div>
+            <div class="chart-container-large w-full">
+                <canvas id="bubbleChart"></canvas>
+            </div>
+            <div class="flex justify-center gap-6 mt-4 text-xs font-semibold text-[#5A5550]">
+                <div><span class="inline-block w-3 h-3 rounded-full bg-[#A68A64] opacity-70 mr-1"></span> Low Friction (Synergy)</div>
+                <div><span class="inline-block w-3 h-3 rounded-full bg-[#C65A49] opacity-70 mr-1"></span> High Friction (Conflict/Growth)</div>
+                <div><span class="inline-block w-3 h-3 rounded-full border border-gray-400 mr-1"></span> Bubble Size = Growth/Transformation Potential</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5.1 PATHOLOGIES -->
+    <section id="sec-app-pathology" class="content-section hidden max-w-5xl mx-auto">
+        <header class="mb-8 border-b border-[#D5CEC4] pb-6">
+            <h2 class="text-4xl font-bold text-[#1A1818] mb-4 serif-text">Clinical Pathologies: Loops & Grips</h2>
+            <p class="text-lg text-[#4A4642] leading-relaxed">Typology provides a framework for diagnosing specific cognitive distress states. These are not permanent disorders, but mechanical breakdowns in information metabolism.</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div class="bg-white p-6 rounded-lg border-t-4 border-t-[#C65A49] shadow-md relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 text-8xl text-[#F8F7F4] font-bold opacity-50 z-0">!</div>
+                <div class="relative z-10">
+                    <h3 class="text-xl font-bold mb-3 text-[#1A1818]">The Inferior Grip (Eruption)</h3>
+                    <p class="text-sm text-[#4A4642] mb-4 border-b border-[#EBE7DF] pb-4">Occurs under immense, sudden stress or chronic exhaustion of the dominant function. The psyche flips, and the undeveloped 4th function takes tyrannical control.</p>
+                    <ul class="text-xs space-y-3">
+                        <li><strong class="text-[#A68A64]">IxxJ (Se Grip):</strong> Binge eating, reckless spending, obsession with physical details, sensory hyper-reactivity.</li>
+                        <li><strong class="text-[#A68A64]">ExxP (Ni Grip):</strong> Paranoia, singular catastrophic visions of the future, conspiracy theories, withdrawal from reality.</li>
+                        <li><strong class="text-[#A68A64]">IxxP (Fe/Te Grip):</strong> Sudden tyrannical attempts to control others' logic/behavior (Te), or sudden desperate need for external validation/emotional outbursts (Fe).</li>
+                        <li><strong class="text-[#A68A64]">ExxJ (Fi/Ti Grip):</strong> Absolute self-isolation, extreme harsh self-judgment (Fi), or convoluted, illogical rationalizations destroying their own systems (Ti).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg border-t-4 border-t-[#2C2A28] shadow-md relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 text-8xl text-[#F8F7F4] font-bold opacity-50 z-0">∞</div>
+                <div class="relative z-10">
+                    <h3 class="text-xl font-bold mb-3 text-[#1A1818]">The Dominant-Tertiary Loop</h3>
+                    <p class="text-sm text-[#4A4642] mb-4 border-b border-[#EBE7DF] pb-4">A chronic defense mechanism. The individual bypasses their 2nd (Auxiliary) function to avoid dealing with the opposite attitude (e/i), creating an echo chamber.</p>
+                    <ul class="text-xs space-y-3">
+                        <li><strong class="text-[#1A1818]">Introverted Loops (e.g., Ni-Ti in INFJ):</strong> Detachment from external reality. Constructing massive, intricate internal theories or self-criticisms with zero real-world data collection.</li>
+                        <li><strong class="text-[#1A1818]">Extraverted Loops (e.g., Ne-Fe in ENTP):</strong> Complete loss of internal grounding. Desperate rapid-fire idea generation purely to manipulate external social reactions, losing all personal logical consistency.</li>
+                        <li class="mt-4 text-[10px] text-center italic text-[#8A8580] pt-2 border-t border-[#EBE7DF]">Treatment involves forcefully activating the Auxiliary function to break the loop.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<script>
+// --- DATA STORE ---
+const baseFunctions = [
+    {id: 'Ni', name: 'Introverted Intuition', desc: 'Synthesizing unconscious archetypes; forecasting singular, convergent outcomes. Probability mapping.'},
+    {id: 'Ne', name: 'Extraverted Intuition', desc: 'Generating divergent possibilities; perceiving objective connections across disparate external patterns.'},
+    {id: 'Si', name: 'Introverted Sensation', desc: 'Comparing current stimuli against subjective historical impressions. Homeostatic preservation.'},
+    {id: 'Se', name: 'Extraverted Sensation', desc: 'Direct, kinetic engagement with objective reality. High-fidelity real-time situational awareness.'},
+    {id: 'Ti', name: 'Introverted Thinking', desc: 'Creating internally consistent logical frameworks. Deconstructive deduction and precise categorization.'},
+    {id: 'Te', name: 'Extraverted Thinking', desc: 'Organizing objective systems for maximum efficiency and empirical outcomes. Inductive structuring.'},
+    {id: 'Fi', name: 'Introverted Feeling', desc: 'Evaluating information against a subjective, deeply nuanced internal moral and authentic baseline.'},
+    {id: 'Fe', name: 'Extraverted Feeling', desc: 'Aligning with objective social metrics. Maintaining interpersonal homeostasis and collective ethics.'}
+];
+
+const mbtiData = {
+    INTJ: { name: "The Architect", desc: "Strategic, logical, visionary.", stack: ["Ni", "Te", "Fi", "Se"], shadow: ["Ne", "Ti", "Fe", "Si"], scores: [95, 40, 75, 85, 60, 20, 15, 30], quadra: 'Gamma', coords: {x: 8, y: 7}, color: '#A68A64' },
+    INTP: { name: "The Logician", desc: "Innovative, objective, abstract.", stack: ["Ti", "Ne", "Si", "Fe"], shadow: ["Te", "Ni", "Se", "Fi"], scores: [85, 95, 60, 20, 45, 75, 35, 15], quadra: 'Alpha', coords: {x: 7, y: -8}, color: '#2C2A28' },
+    ENTJ: { name: "The Commander", desc: "Decisive, efficient, strategic leader.", stack: ["Te", "Ni", "Se", "Fi"], shadow: ["Ti", "Ne", "Si", "Fe"], scores: [60, 85, 30, 95, 20, 70, 45, 15], quadra: 'Gamma', coords: {x: 6, y: 9}, color: '#A68A64' },
+    ENTP: { name: "The Debater", desc: "Inventive, adaptable, conceptual.", stack: ["Ne", "Ti", "Fe", "Si"], shadow: ["Ni", "Te", "Fi", "Se"], scores: [70, 45, 95, 65, 15, 35, 80, 25], quadra: 'Alpha', coords: {x: 9, y: -6}, color: '#2C2A28' },
+    INFJ: { name: "The Advocate", desc: "Insightful, empathetic, idealistic.", stack: ["Ni", "Fe", "Ti", "Se"], shadow: ["Ne", "Fi", "Te", "Si"], scores: [95, 25, 60, 40, 20, 85, 75, 30], quadra: 'Beta', coords: {x: 8, y: -3}, color: '#7A9E9F' },
+    INFP: { name: "The Mediator", desc: "Authentic, compassionate, value-driven.", stack: ["Fi", "Ne", "Si", "Te"], shadow: ["Fe", "Ni", "Se", "Ti"], scores: [65, 85, 45, 15, 95, 35, 75, 20], quadra: 'Delta', coords: {x: 7, y: 4}, color: '#D5CEC4' },
+    ENFJ: { name: "The Protagonist", desc: "Charismatic, inspiring, altruistic.", stack: ["Fe", "Ni", "Se", "Ti"], shadow: ["Fi", "Ne", "Si", "Te"], scores: [85, 40, 25, 55, 75, 95, 60, 15], quadra: 'Beta', coords: {x: 5, y: -5}, color: '#7A9E9F' },
+    ENFP: { name: "The Campaigner", desc: "Enthusiastic, creative, spontaneous.", stack: ["Ne", "Fi", "Te", "Si"], shadow: ["Ni", "Fe", "Ti", "Se"], scores: [75, 30, 90, 45, 85, 65, 20, 15], quadra: 'Delta', coords: {x: 9, y: 6}, color: '#D5CEC4' },
+    ISTJ: { name: "The Logistician", desc: "Responsible, detail-oriented, pragmatic.", stack: ["Si", "Te", "Fi", "Ne"], shadow: ["Se", "Ti", "Fe", "Ni"], scores: [15, 95, 30, 60, 55, 15, 40, 85], quadra: 'Delta', coords: {x: -8, y: 8}, color: '#D5CEC4' },
+    ISFJ: { name: "The Defender", desc: "Dedicated, supportive, meticulous.", stack: ["Si", "Fe", "Ti", "Ne"], shadow: ["Se", "Fi", "Te", "Ni"], scores: [25, 90, 15, 35, 40, 85, 65, 75], quadra: 'Alpha', coords: {x: -8, y: -4}, color: '#2C2A28' },
+    ESTJ: { name: "The Executive", desc: "Organized, directive, objective.", stack: ["Te", "Si", "Ne", "Fi"], shadow: ["Ti", "Se", "Ni", "Fe"], scores: [35, 80, 50, 95, 20, 40, 15, 65], quadra: 'Delta', coords: {x: -6, y: 9}, color: '#D5CEC4' },
+    ESFJ: { name: "The Consul", desc: "Sociable, caring, traditional.", stack: ["Fe", "Si", "Ne", "Ti"], shadow: ["Fi", "Se", "Ni", "Te"], scores: [45, 75, 40, 55, 60, 95, 15, 35], quadra: 'Alpha', coords: {x: -5, y: -6}, color: '#2C2A28' },
+    ISTP: { name: "The Virtuoso", desc: "Observant, analytical, tactical.", stack: ["Ti", "Se", "Ni", "Fe"], shadow: ["Te", "Si", "Ne", "Fi"], scores: [85, 35, 45, 65, 15, 20, 90, 75], quadra: 'Beta', coords: {x: -7, y: -8}, color: '#7A9E9F' },
+    ISFP: { name: "The Adventurer", desc: "Gentle, aesthetic, present-focused.", stack: ["Fi", "Se", "Ni", "Te"], shadow: ["Fe", "Si", "Ne", "Ti"], scores: [60, 45, 25, 20, 95, 55, 85, 65], quadra: 'Gamma', coords: {x: -7, y: 5}, color: '#A68A64' },
+    ESTP: { name: "The Entrepreneur", desc: "Energetic, pragmatic, action-oriented.", stack: ["Se", "Ti", "Fe", "Ni"], shadow: ["Si", "Te", "Fi", "Ne"], scores: [55, 20, 75, 45, 30, 65, 95, 85], quadra: 'Beta', coords: {x: -9, y: -5}, color: '#7A9E9F' },
+    ESFP: { name: "The Entertainer", desc: "Vibrant, observant, sociable.", stack: ["Se", "Fi", "Te", "Ni"], shadow: ["Si", "Fe", "Ti", "Ne"], scores: [40, 35, 65, 25, 80, 85, 95, 55], quadra: 'Gamma', coords: {x: -9, y: 4}, color: '#A68A64' }
+};
+
+const labelsRadar = ['Ni', 'Ne', 'Si', 'Se', 'Ti', 'Te', 'Fi', 'Fe'];
+const quadraData = {
+    'Alpha': [100, 100, 100, 10, 10, 10, 10, 100], // Fake representation of emphasis on Ne, Ti, Fe, Si
+    'Beta':  [100, 10, 10, 100, 100, 10, 10, 100],
+    'Gamma': [100, 10, 10, 100, 10, 100, 100, 10],
+    'Delta': [10, 100, 100, 10, 10, 100, 100, 10]
+};
+
+// Relation Bubbles (Targeting INTJ perspective as baseline)
+// x: Friction (0-100), y: Synergy (0-100), r: Growth Potential
+const relationData = [
+    {x: 10, y: 90, r: 15, label: 'ENTJ'},
+    {x: 20, y: 85, r: 10, label: 'INTJ'},
+    {x: 30, y: 80, r: 25, label: 'INTP'},
+    {x: 50, y: 70, r: 20, label: 'ENFP'},
+    {x: 80, y: 20, r: 35, label: 'ESFJ (Conflict)'},
+    {x: 90, y: 10, r: 40, label: 'ISFJ (Super-Ego)'},
+    {x: 60, y: 40, r: 15, label: 'ISTJ'},
+    {x: 75, y: 60, r: 30, label: 'ESFP (Dual)'}
+];
+
+// --- STATE & CHARTS ---
+let charts = {};
+let currentTypeStr = 'INTJ';
+let chartsInitialized = false;
+
+// --- INITIALIZATION ---
+function initApp() {
+    populateFunctionsGrid();
+    renderTypeGrid();
+    setupNavigation();
+    
+    // We delay chart initialization slightly to ensure DOM is ready and visible
+    // Since initially sec-intro-functions is visible, others are hidden.
+    // Chart.js handles hidden initialization well if container has strict CSS size.
+    setTimeout(initCharts, 100);
+    updateTypeDetail('INTJ');
+}
+
+function populateFunctionsGrid() {
+    const container = document.getElementById('functions-grid-container');
+    baseFunctions.forEach(f => {
+        container.innerHTML += `
+            <div class="bg-white p-5 rounded border border-[#E2DCD0] shadow-sm hover:border-[#A68A64] transition-colors">
+                <div class="text-2xl font-bold text-[#1A1818] mb-1 font-mono">${f.id}</div>
+                <div class="text-[11px] uppercase tracking-wider font-semibold text-[#A68A64] mb-2">${f.name}</div>
+                <p class="text-xs text-[#4A4642] leading-relaxed">${f.desc}</p>
+            </div>
+        `;
+    });
+}
+
+function renderTypeGrid() {
+    const grid = document.getElementById('type-grid');
+    Object.keys(mbtiData).forEach(type => {
+        const btn = document.createElement('button');
+        btn.className = `type-card py-2 px-1 text-center font-bold rounded bg-white border border-[#E2DCD0] text-[#3A3632] hover:bg-[#F8F7F4] text-xs md:text-sm`;
+        btn.textContent = type;
+        btn.onclick = () => updateTypeDetail(type);
+        grid.appendChild(btn);
+    });
+}
+
+function setupNavigation() {
+    const btns = document.querySelectorAll('.nav-btn');
+    const sections = document.querySelectorAll('.content-section');
+
+    btns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            btns.forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+
+            const targetId = e.target.getAttribute('data-target');
+            sections.forEach(sec => {
+                sec.classList.add('hidden');
+                sec.classList.remove('fade-in');
+            });
+            const activeSec = document.getElementById(targetId);
+            activeSec.classList.remove('hidden');
+            // Trigger reflow for animation
+            void activeSec.offsetWidth; 
+            activeSec.classList.add('fade-in');
+
+            // Force chart resize if necessary when unhidden
+            Object.values(charts).forEach(c => {
+                if(c && typeof c.resize === 'function') c.resize();
+            });
+        });
+    });
+}
+
+function updateTypeDetail(type) {
+    currentTypeStr = type;
+    const data = mbtiData[type];
+    
+    document.querySelectorAll('.type-card').forEach(card => {
+        card.classList.remove('active-type');
+        if(card.textContent === type) card.classList.add('active-type');
+    });
+
+    document.getElementById('detail-title').innerHTML = `${type} <span class="text-[#A68A64] font-normal ml-2 text-base italic">${data.name}</span>`;
+    document.getElementById('detail-subtitle').textContent = data.desc;
+
+    let stackHtml = '<div class="text-xs space-y-2">';
+    stackHtml += `<div class="flex justify-between items-center"><span class="font-semibold text-[#5A5550]">Dominant:</span> <span class="bg-[#EBE7DF] font-bold px-3 py-1 rounded w-10 text-center">${data.stack[0]}</span></div>`;
+    stackHtml += `<div class="flex justify-between items-center"><span class="font-semibold text-[#5A5550]">Auxiliary:</span> <span class="bg-[#EBE7DF] font-bold px-3 py-1 rounded w-10 text-center">${data.stack[1]}</span></div>`;
+    stackHtml += `<div class="flex justify-between items-center"><span class="font-semibold text-[#5A5550]">Tertiary:</span> <span class="bg-[#EBE7DF] font-bold px-3 py-1 rounded w-10 text-center">${data.stack[2]}</span></div>`;
+    stackHtml += `<div class="flex justify-between items-center"><span class="font-semibold text-[#5A5550]">Inferior:</span> <span class="bg-[#EBE7DF] font-bold px-3 py-1 rounded w-10 text-center border border-[#C65A49] text-[#C65A49]">${data.stack[3]}</span></div>`;
+    stackHtml += '</div>';
+    document.getElementById('detail-stack').innerHTML = stackHtml;
+
+    document.getElementById('detail-clinical-notes').innerHTML = `<strong>Quadra:</strong> ${data.quadra}<br><strong>Clinical Note:</strong> Prone to ${data.stack[3]} grip under extreme stress. Optimal integration requires conscious development of ${data.stack[1]}.`;
+
+    if (charts.radar) {
+        charts.radar.data.datasets[0].data = data.scores;
+        // Approximation of shadow scores for visual effect (inverse of ego)
+        charts.radar.data.datasets[1].data = data.scores.map(s => 100 - s + (Math.random()*10)); 
+        charts.radar.update();
+    }
+}
+
+// --- CHART INITIALIZATIONS ---
+function initCharts() {
+    Chart.defaults.font.family = 'Inter';
+    Chart.defaults.color = '#5A5550';
+
+    // 1. Radar Chart (16 Types)
+    const ctxRadar = document.getElementById('radarChart').getContext('2d');
+    charts.radar = new Chart(ctxRadar, {
+        type: 'radar',
+        data: {
+            labels: labelsRadar,
+            datasets: [
+                {
+                    label: 'Conscious Ego Potential',
+                    data: mbtiData['INTJ'].scores,
+                    backgroundColor: 'rgba(166, 138, 100, 0.4)',
+                    borderColor: 'rgba(166, 138, 100, 1)',
+                    pointBackgroundColor: '#fff',
+                    pointBorderColor: '#A68A64',
+                    borderWidth: 2,
+                    tension: 0.3
+                },
+                {
+                    label: 'Shadow Complex Potential',
+                    data: [10, 60, 25, 15, 40, 80, 85, 70],
+                    backgroundColor: 'rgba(44, 42, 40, 0.05)',
+                    borderColor: 'rgba(44, 42, 40, 0.3)',
+                    borderDash: [5, 5],
+                    pointRadius: 0,
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            scales: { r: { min: 0, max: 100, ticks: {display: false}, pointLabels: {font: {size: 14, weight: 'bold'}} } },
+            plugins: { legend: { display: false } }
+        }
+    });
+
+    // 2. Polar Area Chart (Quadras)
+    const ctxPolar = document.getElementById('polarChart').getContext('2d');
+    charts.polar = new Chart(ctxPolar, {
+        type: 'polarArea',
+        data: {
+            labels: labelsRadar,
+            datasets: [{
+                data: [100, 100, 100, 10, 10, 10, 10, 100], // Alpha default
+                backgroundColor: [
+                    '#E2DCD0','#2C2A28','#D5CEC4','#F8F7F4',
+                    '#F8F7F4','#F8F7F4','#F8F7F4','#A68A64'
+                ],
+                borderWidth: 1,
+                borderColor: '#F8F7F4'
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            scales: { r: { ticks: {display: false} } },
+            plugins: { legend: { position: 'right', labels: {font: {size: 10}} } }
+        }
+    });
+
+    // 3. Line Chart (DAT Fluidity)
+    const ctxLine = document.getElementById('lineChart').getContext('2d');
+    charts.line = new Chart(ctxLine, {
+        type: 'line',
+        data: {
+            labels: ['Baseline', 'Mild Load', 'Moderate Load', 'Severe Load (Grip)', 'Recovery Phase', 'Integration'],
+            datasets: [
+                { label: 'Ni/Te (Primary)', data: [95, 85, 50, 15, 65, 90], borderColor: '#2C2A28', backgroundColor: 'transparent', tension: 0.4, borderWidth: 3 },
+                { label: 'Ne/Ti (Shadow)', data: [15, 30, 60, 45, 35, 25], borderColor: '#A68A64', borderDash: [5, 5], backgroundColor: 'transparent', tension: 0.4, borderWidth: 2 },
+                { label: 'Se/Fi (Inferior)', data: [5, 15, 35, 90, 25, 20], borderColor: '#C65A49', backgroundColor: 'rgba(198, 90, 73, 0.1)', fill: true, tension: 0.4, borderWidth: 2 }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: { legend: { position: 'bottom' } },
+            scales: { y: { max: 100, title: {display: true, text: 'Cognitive Dominance %'} } }
+        }
+    });
+
+    // 4. Scatter Plot (Phase Space)
+    const ctxScatter = document.getElementById('scatterChart').getContext('2d');
+    const scatterData = Object.keys(mbtiData).map(key => ({
+        x: mbtiData[key].coords.x, 
+        y: mbtiData[key].coords.y, 
+        label: key,
+        color: mbtiData[key].color
+    }));
+    
+    charts.scatter = new Chart(ctxScatter, {
+        type: 'scatter',
+        data: {
+            datasets: [{
+                label: 'Cognitive Coordinates',
+                data: scatterData,
+                backgroundColor: scatterData.map(d => d.color),
+                pointRadius: 8,
+                pointHoverRadius: 12
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: { callbacks: { label: (ctx) => ctx.raw.label } },
+                annotation: { /* Could use chartjs-plugin-annotation for quadrants, skipping to keep NO SVG/external reqs beyond base Chart.js */ }
+            },
+            scales: {
+                x: { min: -10, max: 10, title: {display: true, text: '← Physical (S)  Perception Axis  Abstract (N) →'}, grid: {color: (ctx) => ctx.tick.value === 0 ? '#2C2A28' : 'rgba(0,0,0,0.05)'} },
+                y: { min: -10, max: 10, title: {display: true, text: '← Subjective (F)  Judgment Axis  Objective (T) →'}, grid: {color: (ctx) => ctx.tick.value === 0 ? '#2C2A28' : 'rgba(0,0,0,0.05)'} }
+            }
+        }
+    });
+
+    // 5. Bubble Chart (Relational Mechanics)
+    const ctxBubble = document.getElementById('bubbleChart').getContext('2d');
+    charts.bubble = new Chart(ctxBubble, {
+        type: 'bubble',
+        data: {
+            datasets: relationData.map(d => ({
+                label: d.label,
+                data: [{x: d.x, y: d.y, r: d.r}],
+                backgroundColor: d.x > 60 ? 'rgba(198, 90, 73, 0.6)' : 'rgba(166, 138, 100, 0.6)',
+                borderColor: d.x > 60 ? '#C65A49' : '#A68A64',
+                borderWidth: 1
+            }))
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label} (Growth Pot: ${ctx.raw.r})` } } },
+            scales: {
+                x: { min: 0, max: 100, title: {display: true, text: 'Communication Friction (Translation Cost)'} },
+                y: { min: 0, max: 100, title: {display: true, text: 'Cognitive Synergy (Natural Flow)'} }
+            }
+        }
+    });
+
+    chartsInitialized = true;
+}
+
+function updatePolarChart(quadra) {
+    if(!charts.polar) return;
+    
+    // Set colors based on quadra emphasizing specific functions
+    // Order: Ni, Ne, Si, Se, Ti, Te, Fi, Fe
+    let dataMap = [];
+    let colorMap = [];
+    const baseColor = '#A68A64';
+    const dimColor = '#EBE7DF';
+
+    if(quadra === 'Alpha') { // Ne, Si, Ti, Fe (idx 1, 2, 4, 7)
+        dataMap = [10, 100, 100, 10, 100, 10, 10, 100];
+        colorMap = [dimColor, baseColor, baseColor, dimColor, baseColor, dimColor, dimColor, baseColor];
+    } else if(quadra === 'Beta') { // Ni, Se, Ti, Fe (idx 0, 3, 4, 7)
+        dataMap = [100, 10, 10, 100, 100, 10, 10, 100];
+        colorMap = [baseColor, dimColor, dimColor, baseColor, baseColor, dimColor, dimColor, baseColor];
+    } else if(quadra === 'Gamma') { // Ni, Se, Fi, Te (idx 0, 3, 6, 5)
+        dataMap = [100, 10, 10, 100, 10, 100, 100, 10];
+        colorMap = [baseColor, dimColor, dimColor, baseColor, dimColor, baseColor, baseColor, dimColor];
+    } else if(quadra === 'Delta') { // Ne, Si, Fi, Te (idx 1, 2, 6, 5)
+        dataMap = [10, 100, 100, 10, 10, 100, 100, 10];
+        colorMap = [dimColor, baseColor, baseColor, dimColor, dimColor, baseColor, baseColor, dimColor];
+    }
+
+    charts.polar.data.datasets[0].data = dataMap;
+    charts.polar.data.datasets[0].backgroundColor = colorMap;
+    charts.polar.update();
+}
+
+document.addEventListener('DOMContentLoaded', initApp);
+</script>
+</body>
+</html>
